@@ -9,7 +9,6 @@
 #ifndef Array2D_H
 #define Array2D_H
 
-
 /************************************************************************
 * Class: cTime
 *
@@ -64,5 +63,6 @@ private:
 
 };
 
+#include "Array2D.inc"
 
 #endif
