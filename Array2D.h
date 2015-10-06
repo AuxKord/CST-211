@@ -29,9 +29,9 @@
 *		parameters. It also ensures that the data is valid.
 *
 * Methods:
-*	void GetRow ()
+*	int GetRow ()
 *		This method gets the row values.
-*	void GetCol()
+*	int GetCol()
 *		This method gets the column values.
 *************************************************************************/
 
@@ -39,27 +39,27 @@ template <typename T>
 class cArray2D
 {
 public:
-	Array2D  ();
-	Array2D  ( int row, int col = 0 );
-	Array2D	 ( const Array2D &c     );
-	~Array2D ();
+	Array2D  ();						// Default Constructor
+	Array2D  ( int row, int col = 0 );	// Overloaded Row & Col constructor
+	Array2D	 ( const Array2D &c );		// Copy Construtor
+	~Array2D ();						// Destructor
 
-	Array2D &operator= ( const Array2D &rhs );
-	Row<T> operator[]  ( int index			);
+	Array2D &operator= ( const Array2D &rhs );	// Overloaded Assignment Operator Constructor
+	Row<T> operator[]  ( int index );			// Array Index Operator Constructor
 
-	int GetRow ();
-	int GetCol ();
+	int GetRow ();	// Gets the Row Values
+	int GetCol ();	// Gets the Col Values
 
-	void SetRow ( int rows    );
-	void SetCol ( int columns );
+	void SetRow ( int rows );		// Checks and sets the Row Values
+	void SetCol ( int columns );	// Checks and sets the Col Values
 
-	T &Select ( int row, int column );
+	T &Select ( int row, int column );	// Selects desired Row and Column
 
 private:
-	T** m_array;
+	T** m_array;	// Pointer to Pointer Multi-Dimensional Array 
 
-	int m_row;
-	int m_col;
+	int m_row;		// User Defined Row	
+	int m_col;		// User Defined Column
 
 };
 
