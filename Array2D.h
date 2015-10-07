@@ -39,12 +39,12 @@ template <typename T>
 class cArray2D
 {
 public:
-	Array2D  ();						// Default Constructor
-	Array2D  ( int row, int col = 0 );	// Overloaded Row & Col constructor
-	Array2D	 ( const Array2D &c );		// Copy Construtor
-	~Array2D ();						// Destructor
+	cArray2D  ();						// Default Constructor
+	cArray2D  ( int row, int col = 0 );	// Overloaded Row & Col constructor
+	cArray2D  ( const cArray2D &c );		// Copy Construtor
+	~cArray2D ();						// Destructor
 
-	Array2D &operator= ( const Array2D &rhs );	// Overloaded Assignment Operator Constructor
+	cArray2D &operator= ( const cArray2D &rhs );	// Overloaded Assignment Operator Constructor
 	Row<T> operator[]  ( int index );			// Array Index Operator Constructor
 
 	int GetRow ();	// Gets the Row Values
@@ -63,6 +63,23 @@ private:
 
 };
 
+template <typename T>
+class cRow : cArray2D
+{
+public:
+	cRow ( cArray2D &array, int row );
+
+	T &operator[] ( int column );
+
+private:
+	cArray2D &m_array2D;
+
+	int		  m_row;
+		
+};
+
 #include "Array2D.inc"
 
 #endif
+
+
