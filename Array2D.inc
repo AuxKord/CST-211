@@ -3,7 +3,7 @@
 * Created:				10/04/15
 * Updated:				10/04/15
 * H.W. Number:			CST 211 Assignment 2
-* Filename:				Array2D.h
+* Filename:				Array2D.inc
 ************************************************************/
 
 #ifndef Array2D_i
@@ -23,31 +23,33 @@
 ****************************************************************/
 
 template <typename T>
-cArray2D<T>::Array2D() : m_row(), m_col(), m_array ()
+cArray2D<T>::cArray2D () : m_row   ( row ), 
+						   m_col   ( col ), 
+						   m_array ()
 {
 	// TODO: insert code here
 }
 
 template <typename T>
-cArray2D<T>::Array2D ( int row, int col )
+cArray2D<T>::cArray2D ( int row, int col )
 {
 	// TODO: insert code here
 }
 
 template <typename T>
-cArray2D<T>::Array2D ( const Array2D & c )
+cArray2D<T>::cArray2D ( const cArray2D & c )
 {
 	// TODO: insert code here
 }
 
 template <typename T>
-cArray2D<T>::~Array2D ()
+cArray2D<T>::~cArray2D ()
 {
 	// TODO: insert code here
 }
 
 template <typename T>
-Array2D & cArray2D<T>::operator= ( const Array2D & rhs )
+cArray2D & cArray2D<T>::operator= ( const cArray2D & rhs )
 {
 	// TODO: insert code here
 }
@@ -60,14 +62,14 @@ Row<T> cArray2D<T>::operator[] ( int index )
 }
 
 template <typename T>
-int cArray2D<T>::GetRow()
+int cArray2D<T>::GetRow ()
 {
 	// TODO: insert code here
 	return 0;
 }
 
 template <typename T>
-int cArray2D<T>::GetCol()
+int cArray2D<T>::GetCol ()
 {
 	// TODO: insert code here
 	return 0;
@@ -91,5 +93,18 @@ T & cArray2D<T>::Select ( int row, int column )
 	// TODO: insert return statement code here
 }
 
+/****************************************************************/
+
+template <typename T>
+cRow<T>::cRow ( cArray2D & array, int row )
+{
+	// TODO: insert code here
+}
+
+template <typename T>
+T & cRow<T>::operator[] ( int column )
+{
+	// TODO: insert return statement here
+}
 
 #endif
