@@ -78,11 +78,11 @@ cArray2D<T>::~cArray2D ()
 	{
 		for ( int cols = 0; cols < m_col; ++cols )
 		{
-			delete[][] m_array; // double check
-			m_array = 0; // double check
+			delete[] m_array [ row ][ col ];
 		}
 	}
-
+	delete[] m_array;
+	m_array = 0;
 }
 
 // Assignment Operator Overload Constructor
@@ -96,11 +96,12 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		{
 			for ( int cols = 0; cols < m_col; ++cols )
 			{
-				delete[][] m_array; // double check
-				m_array = 0; // double check
+				delete[] m_array [ row ][ col ];
 			}
 		}
-		
+		delete[] m_array;
+		m_array = 0;
+
 		// Copy row over to right hand side
 		// Copy col over to right hand side
 		m_row = rhs.m_row;
@@ -289,7 +290,8 @@ void cArray2D<T>::SetCol ( int column )
 	// It is a shallow copy
 	// Making it a deep copy will create a
 	// 2D array where each column has a different value
-	
+	column = m_col;
+
 	/*
 		Original Implementation
 
