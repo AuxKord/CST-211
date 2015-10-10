@@ -9,6 +9,9 @@
 #ifndef Array2D_H
 #define Array2D_H
 
+#include "Row.h"
+//#include "Exception.h"
+
 /************************************************************************
 * Class: cTime
 *
@@ -39,19 +42,21 @@ template <typename T>
 class cArray2D
 {
 public:
-	cArray2D  ();						// Default Constructor
-	cArray2D  ( int row, int col = 0 );	// Overloaded Row & Col constructor
-	cArray2D  ( const cArray2D &c );		// Copy Construtor
-	~cArray2D ();						// Destructor
+	cArray2D  ();									// Default Constructor
+	cArray2D  ( int row, int column );				// Overloaded Row & Col constructor
+	cArray2D  ( const cArray2D &c );				// Copy Construtor
+	~cArray2D ();									// Destructor
 
 	cArray2D &operator= ( const cArray2D &rhs );	// Overloaded Assignment Operator Constructor
-	Row<T> operator[]  ( int index );			// Array Index Operator Constructor
 
-	int GetRow ();	// Gets the Row Values
-	int GetCol ();	// Gets the Col Values
+	const cRow operator[]  ( int index ) const;
+	cRow	operator[]  ( int index );				// Array Index Operator Constructor
 
-	void SetRow ( int rows );		// Checks and sets the Row Values
-	void SetCol ( int columns );	// Checks and sets the Col Values
+	int GetRow ();					// Gets the Row Values
+	int GetCol ();					// Gets the Col Values
+
+	void SetRow ( int row );		// Checks and sets the Row Values
+	void SetCol ( int column );	// Checks and sets the Col Values
 
 	T &Select ( int row, int column );	// Selects desired Row and Column
 
@@ -61,21 +66,6 @@ private:
 	int m_row;		// User Defined Row	
 	int m_col;		// User Defined Column
 
-};
-
-template <typename T>
-class cRow : cArray2D
-{
-public:
-	cRow ( cArray2D &array, int row );
-
-	T &operator[] ( int column );
-
-private:
-	cArray2D &m_array2D;
-
-	int		  m_row;
-		
 };
 
 #include "Array2D.inc"
