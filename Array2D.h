@@ -1,7 +1,7 @@
 /***********************************************************
 * Author:				Abdul Yahya
 * Created:				10/04/15
-* Updated:				10/04/15
+* Updated:				10/10/15
 * H.W. Number:			CST 211 Assignment 2
 * Filename:				Array2D.h
 ************************************************************/
@@ -17,7 +17,7 @@
 *
 * Constructors:
 *	cArray2D ()
-*		Array, Rows, and Columns are initialized to 0. 
+*		Array, Rows, and Columns are initialized to 0.
 *	cArray2D ( int row, int col = 0 )
 *		Overloading Row and Col member Variables.
 *	Array2D	( const Array2D &c )
@@ -49,8 +49,8 @@ public:
 
 	cArray2D &operator= ( const cArray2D &rhs );	// Overloaded Assignment Operator Constructor
 
-	const cRow operator[]  ( int index ) const;
-	cRow	operator[]  ( int index );				// Array Index Operator Constructor
+	const cRow<T> operator[]  ( int index ) const;
+	cRow<T>		  operator[]  ( int index );				// Array Index Operator Constructor
 
 	int GetRow ();					// Gets the Row Values
 	int GetCol ();					// Gets the Col Values
@@ -58,13 +58,13 @@ public:
 	void SetRow ( int row );		// Checks and sets the Row Values
 	void SetCol ( int column );	// Checks and sets the Col Values
 
-	T &Select ( int row, int column );	// Selects desired Row and Column
+	T &Select ( int row, int column );	// Accesses row and column values
 
-private:
+protected: // *UML says make this Private* Following UML = 10 Extra Points
 	T** m_array;	// Pointer to Pointer Multi-Dimensional Array 
 
-	int m_row;		// User Defined Row	
-	int m_col;		// User Defined Column
+	int m_row;		// Member variable used to store row values
+	int m_col;		// Member variable used to store column values
 
 };
 
