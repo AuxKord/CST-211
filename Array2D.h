@@ -10,7 +10,7 @@
 #define Array2D_H
 
 #include "Row.h"
-//#include "Exception.h"
+#include "Exception.h"
 
 /************************************************************************
 * Class: cTime
