@@ -14,6 +14,11 @@
 //
 cException::cException () : m_msg ( new char [ 0 ] )
 {
+	// Verifying memory allocation
+	if ( !m_msg )
+	{
+		throw ERR_MEM_ALLOC;
+	}
 }
 
 //
@@ -24,7 +29,7 @@ cException::cException ( char *msg ) : m_msg ( new char [ *msg ] )
 	// Verifying memory allocation
 	if ( !m_msg )
 	{
-		// Throw Exception
+		throw ERR_MEM_ALLOC;
 	}
 	else
 	{
@@ -44,7 +49,7 @@ cException::cException ( const cException &c ) : m_msg ( new char[ *c.m_msg ] )
 	// Verifying memory allocation
 	if ( !m_msg )
 	{
-		// Throw Exception
+		throw ERR_MEM_ALLOC;
 	}
 	else
 	{
@@ -68,7 +73,7 @@ cException::~cException()
 //
 // Overloaded Assignment Operator constructor 
 //
-cException & cException::operator= (const cException &rhs)
+cException & cException::operator= ( const cException &rhs )
 {
 	// Checking to make sure there's no self assignment
 	if ( this != &rhs )
@@ -76,8 +81,20 @@ cException & cException::operator= (const cException &rhs)
 		delete[] m_msg;
 		m_msg = 0;
 
-		// Copy m_msg over to right hand side
-		m_msg = rhs.m_msg;
+		// Creating the array
+		m_msg = ( new char [ *m_msg ] );
+
+		// Verifying memory allocation
+		if ( !m_msg )
+		{
+			throw ERR_MEM_ALLOC;
+		}
+
+		// Copying Array values from m_msg to rhs.m_msg
+		for ( int k = 0; k <= *m_msg; ++k)
+		{
+			m_msg[ k ] = rhs.m_msg[ k ];
+		}
 	}
 
 	return *this;
@@ -114,6 +131,5 @@ const char * cException::GetMessage() const
 ****************************************************************/
 void cException::SetMessage ( char * msg )
 {
-	
+	msg = m_msg;
 }
-
