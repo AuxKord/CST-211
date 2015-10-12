@@ -64,7 +64,7 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 		{
 			for ( int cols = 0; cols < m_col; ++cols )
 			{
-				m_array [ row ][ col ] = c.m_array [ row ][ col ];
+				m_array [ m_row ][ m_col ] = c.m_array [ c.m_row ][ c.m_col ];
 			}
 		}
 	}
@@ -78,7 +78,7 @@ cArray2D<T>::~cArray2D ()
 	{
 		for ( int cols = 0; cols < m_col; ++cols )
 		{
-			delete[] m_array [ row ][ col ];
+			delete[] m_array [ m_row ][ m_col ];
 		}
 	}
 	delete[] m_array;
@@ -96,7 +96,7 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		{
 			for ( int cols = 0; cols < m_col; ++cols )
 			{
-				delete[] m_array [ row ][ col ];
+				delete[] m_array [ m_row ][ m_col ];
 			}
 		}
 		delete[] m_array;
@@ -127,9 +127,9 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 			// over to rhs.m_array
 			for ( int rows = 0; rows < m_row; ++rows )
 			{
-				for ( int cols = 0; cols < m_col; ++cols )
+				for ( int cols = 0; cols < m_col; ++cols )                                         
 				{
-					m_array [ row ][ col ] = rhs.m_array [ row ][ col ];
+					m_array [ m_row ][ m_col ] = rhs.m_array [ rhs.m_row ][ rhs.m_col ];
 				}
 			}
 		}
@@ -143,30 +143,39 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 	return *this;
 }
 
-
+// Const Subscript Operator Constructor
 template<typename T>
 const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
+	if ( index >= m_row )
+	{
+		// Throw bad bounds
+	}
 	return cRow<T> ( *this, index );
 }
 
+// Non-Const Subscript Operator Constructor
 template<typename T>
 cRow<T> cArray2D<T>::operator[] ( int index )
 {
+	if ( index >= m_row ) 
+	{
+		// Throw bad boundss
+	}
 	return cRow<T> ( *this, index );
 }
 
 /**************************************************************
 * Function: int cArray2D<T>::GetRow ()
 *
-*		Purpose:  Reads the input data for each plant
+*		Purpose:  Reads the input data for each row value 
+*				  stored in m_row.
 *
-*		  Entry:  lastPlantNumber is the declared size
-*				  of the array plantArray.
+*		  Entry:  None.
 *
-*          Exit:  For plantNumber = 1 through lastPlantNumber:
-*				  plantArray[ plantNumber - 1 ] equals the total
-*                 production for plant number plantNumber.
+*          Exit:  Returns the private member variable m_row, 
+*				  allowing the Select function to access the
+*				  data. 
 ****************************************************************/
 template <typename T>
 int cArray2D<T>::GetRow ()
@@ -177,14 +186,14 @@ int cArray2D<T>::GetRow ()
 /**************************************************************
 * Function: int cArray2D<T>::GetCol ()
 *
-*		Purpose:  Reads the input data for each plant
+*		Purpose:  Reads the input data for each column value
+*				  stored in m_col.
 *
-*		  Entry:  lastPlantNumber is the declared size
-*				  of the array plantArray.
+*		  Entry:  None.
 *
-*          Exit:  For plantNumber = 1 through lastPlantNumber:
-*				  plantArray[ plantNumber - 1 ] equals the total
-*                 production for plant number plantNumber.
+*          Exit:  Returns the private member variable m_col, 
+*				  allowing the Select function to access the
+*				  data. 			  
 ****************************************************************/
 template <typename T>
 int cArray2D<T>::GetCol ()
@@ -193,131 +202,69 @@ int cArray2D<T>::GetCol ()
 }
 
 /**************************************************************
-* Function: void cArray2D<T>::SetRow ( int rows )
+* Function: void cArray2D<T>::SetRow ( int row )
 *
-*		Purpose:  Reads the input data for each plant
+*		Purpose:  Sets the row values of our template class
+*				  cArray2D.
 *
-*		  Entry:  lastPlantNumber is the declared size
-*				  of the array plantArray.
+*		  Entry:  Takes in the value of integer row. Initializes
+*				  integer newRow with the value of int row only if 
+*				  the value of int row is not equal to what m_row
+*				  already has stored.
 *
-*          Exit:  For plantNumber = 1 through lastPlantNumber:
-*				  plantArray[ plantNumber - 1 ] equals the total
-*                 production for plant number plantNumber.
+*          Exit:  Shallow copies int row over to the
+*				  private member variable m_row.
 *
-* 	  Exception:  PlaceHolder
+* 	  Exception:  If the value of int row is eqaul to what
+*				  m_row already has stored then throw a bad
+*				  bounds exception.
 ****************************************************************/
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
-	// SetRow is not a deep copy function
-	// It is a shallow copy
-	// Making it a deep copy will create a
-	// 2D array where each row has a different value
-	row = m_row;
-
-	/*
-		Improved upon Original Implementation
-
-	// Creating a temporary Array to store updated row values
-	T** m_array = ( new T* [ row ] );
-
-	int newRow = ( m_row > row > m_row : row );
-
-	if (newRow != m_row)
+	int newRow = ( ( m_row < row ? m_row : row ) || ( m_row > row ? m_row : row ) );
+	
+	if ( newRow != m_row )
 	{
-		// Transferring new values to m_array 
-		for ( row = 0; row < row; ++col )
-		{
-			m_array [ row ];
-		}
-		// Deleting and Cleaning memory from the old array
-		delete[] m_array;
-		m_array = 0;
+		newRow = m_row;
 	}
 	else
 	{
-		// Throw Exception
+		// Throw Bad Bounds
 	}
-
-	// Setting membervariable row to new row value
-	row = m_row;
-
-	****************************************************************************
-	  Original Implementation
-
-	// Setting row to member variable m_row
-	row = m_row;
-
-	// Checking if the value for new row is greater than row
-	if ( row > m_row )
-	{
-		// Creating a temporary Array to store updated row values
-		T **m_array = ( new T [ row ] );
-		// Transferring new values to m_array 
-		for ( row = 0; row < row; ++col )
-		{
-			m_array [ row ];
-		}
-		// Deleting and Cleaning memory from the old array
-		delete[] m_array;
-		m_array = 0;
-	}
-	else
-	{
-		// Throw Exception
-	}
-	*/
 }
 
 /**************************************************************
-* Function: void cArray2D<T>::SetCol ( int columns )
+* Function: void cArray2D<T>::SetCol ( int column )
 *
-*		Purpose:  Reads the input data for each plant
+*		Purpose:  Sets the column values of our template class
+*				  cArray2D.
 *
-*		  Entry:  lastPlantNumber is the declared size
-*				  of the array plantArray.
+*		  Entry:  Takes in the value of integer column. 
+*				  Initializes integer newCol with the value 
+*				  of int column only if the value of int column
+*				  is not equal to what m_col already has stored.
 *
-*          Exit:  For plantNumber = 1 through lastPlantNumber:
-*				  plantArray[ plantNumber - 1 ] equals the total
-*                 production for plant number plantNumber.
+*          Exit:  Shallow copies int column over to the
+*				  private member variable m_col.
 *
-* 	  Exception:  PlaceHolder
+* 	  Exception:  If the value of int col is eqaul to what
+*				  m_cols already has stored then throw a bad
+*				  bounds exception.
 ****************************************************************/
 template <typename T>
 void cArray2D<T>::SetCol ( int column )
 {
-	// SetCol is not a deep copy function
-	// It is a shallow copy
-	// Making it a deep copy will create a
-	// 2D array where each column has a different value
-	column = m_col;
+	int newcol = ( ( m_col < column ? m_col : column ) || ( m_col > column ? m_col : column ) );
 
-	/*
-		Original Implementation
-
-	// Setting column to member variable m_col
-	column = m_col;
-
-	// Checking if the value for new column is greater than column
-	if ( column > m_col )
+	if ( newCol != m_col )
 	{
-		// Creating a temporary Array to store updated column values
-		T **m_array = ( new T [ col ] );
-		// Transferring new values to m_array 
-		for ( col = 0; col < column; ++col )
-		{
-			m_array [ col ];
-		}
-		// Deleting and Cleaning memory from the old array
-		delete[] m_array;
-		m_array = 0;
+		newCol = m_col;
 	}
 	else
 	{
-		// If newLength is not resized throw an exception
-		// Exception;
+		// Throw Bad Bounds
 	}
-	*/
 }
 
 /**************************************************************
@@ -340,7 +287,7 @@ void cArray2D<T>::SetCol ( int column )
 template <typename T>
 T &cArray2D<T>::Select ( int row, int column )
 {
-	if ( ( row > m_row ) || ( column > m_col ) )
+	if ( ( row >= m_row ) || ( column >= m_col ) )
 	{
 		// Throw Bounds Exception
 	}
