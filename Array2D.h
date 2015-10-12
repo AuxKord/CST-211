@@ -49,18 +49,18 @@ public:
 
 	cArray2D &operator= ( const cArray2D &rhs );	// Overloaded Assignment Operator Constructor
 
-	const cRow<T> operator[]  ( int index ) const;
-	cRow<T>		  operator[]  ( int index );				// Array Index Operator Constructor
+	const cRow<T> operator[]  ( int index ) const;	// Array Index Operator Constructor
+	cRow<T>		  operator[]  ( int index );		// Array Index Operator Constructor
 
-	int GetRow ();					// Gets the Row Values
-	int GetCol ();					// Gets the Col Values
+	int GetRow ();	// Gets the Row Values
+	int GetCol ();	// Gets the Col Values
 
 	void SetRow ( int row );		// Checks and sets the Row Values
-	void SetCol ( int column );	// Checks and sets the Col Values
+	void SetCol ( int column );		// Checks and sets the Col Values
 
 	T &Select ( int row, int column );	// Accesses row and column values
 
-protected: // *UML says make this Private* Following UML = 10 Extra Points
+private: 
 	T** m_array;	// Pointer to Pointer Multi-Dimensional Array 
 
 	int m_row;		// Member variable used to store row values
