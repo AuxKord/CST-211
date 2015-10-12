@@ -20,7 +20,7 @@ cArray2D<T>::cArray2D() : m_row ( 0 ),
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
-		// Throw Memory Allocation Exception
+		throw ERR_MEM_ALLOC;
 	}
 }
 
@@ -33,7 +33,7 @@ cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
-		// Throw Memory Allocation Exception
+		throw ERR_MEM_ALLOC;
 	}
 	else
 	{
@@ -54,7 +54,7 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
-		// Throw Memory Allocation Exception
+		throw ERR_MEM_ALLOC;
 	}
 	else 
 	{
@@ -64,7 +64,7 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 		{
 			for ( int cols = 0; cols < m_col; ++cols )
 			{
-				m_array [ m_row ][ m_col ] = c.m_array [ c.m_row ][ c.m_col ];
+				m_array [ row ][ col ] = c.m_array [ row ][ col ];
 			}
 		}
 	}
@@ -74,12 +74,9 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 template <typename T>
 cArray2D<T>::~cArray2D ()
 {
-	for ( int rows = 0; rows < m_row; ++rows )
+	for ( int i = 0; i < m_row; ++i )
 	{
-		for ( int cols = 0; cols < m_col; ++cols )
-		{
-			delete[] m_array [ m_row ][ m_col ];
-		}
+		delete[] m_array [ m_col ];
 	}
 	delete[] m_array;
 	m_array = 0;
@@ -119,7 +116,7 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		// 
 		if ( !m_array )
 		{
-			// Throw Memory Allocation Exception
+			throw ERR_MEM_ALLOC;
 		}
 		else
 		{
@@ -147,10 +144,15 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 template<typename T>
 const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
-	if ( index >= m_row )
+	try
 	{
-		// Throw bad bounds
+		index >= m_row;
 	}
+	catch ( cException &e )
+	{
+		std::cout << e.GetMessage ();
+	}
+
 	return cRow<T> ( *this, index );
 }
 
@@ -158,11 +160,16 @@ const cRow<T> cArray2D<T>::operator[] ( int index ) const
 template<typename T>
 cRow<T> cArray2D<T>::operator[] ( int index )
 {
-	if ( index >= m_row ) 
+	try
 	{
-		// Throw bad boundss
+		( index >= m_row );
 	}
-	return cRow<T> ( *this, index );
+	catch ( cException &e )
+	{
+		std::cout << e.GetMessage ();
+	}
+
+		return cRow<T> ( *this, index );
 }
 
 /**************************************************************
@@ -223,15 +230,19 @@ template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
 	int newRow = ( ( m_row < row ? m_row : row ) || ( m_row > row ? m_row : row ) );
-	
-	if ( newRow != m_row )
+
+	try
 	{
-		newRow = m_row;
+		if ( newRow != m_row )
+		{
+			newRow = m_row;
+		}
 	}
-	else
+	catch ( cException &e )
 	{
-		// Throw Bad Bounds
+		std::cout << e.GetMessage ();
 	}
+
 }
 
 /**************************************************************
@@ -257,14 +268,18 @@ void cArray2D<T>::SetCol ( int column )
 {
 	int newcol = ( ( m_col < column ? m_col : column ) || ( m_col > column ? m_col : column ) );
 
-	if ( newCol != m_col )
+	try
 	{
-		newCol = m_col;
+		if ( newCol != m_col )
+		{
+			newCol = m_col;
+		}
 	}
-	else
+	catch (cException &e)
 	{
-		// Throw Bad Bounds
+		std::cout << e.GetMessage();
 	}
+
 }
 
 /**************************************************************
@@ -287,9 +302,13 @@ void cArray2D<T>::SetCol ( int column )
 template <typename T>
 T &cArray2D<T>::Select ( int row, int column )
 {
-	if ( ( row >= m_row ) || ( column >= m_col ) )
+	try
 	{
-		// Throw Bounds Exception
+		( row >= m_row ) || ( column >= m_col );
+	}
+	catch (cException &e)
+	{
+		std::cout << e.GetMessage();
 	}
 
 	return m_array [ row ] [ column ];
