@@ -12,16 +12,16 @@
 int  main()
 {
 	//std::cout << "Hello Worlds" << std::endl;
-	cArray2D<int> example(2, 3);
+	cArray2D<int> sampleArray(2, 3);
 
-	int row = example.GetRow();
-	int col = example.GetCol();
+	int row = sampleArray.GetRow();
+	int col = sampleArray.GetCol();
 
 	for ( int rows = 0; rows > row; ++rows ) 
 	{
 		for ( int cols = 0; cols > col; ++cols ) 
 		{
-			std::cout << "(" << row << ", " << col << ") = " << example[ row ][ col ] << std::endl;
+			std::cout << "(" << row << ", " << col << ") = " << sampleArray[ row ][ col ] << std::endl;
 		}
 	}
 
