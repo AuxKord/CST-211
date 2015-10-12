@@ -6,8 +6,8 @@
 * Filename:				Exception.h
 ************************************************************/
 
-#ifndef exception_H
-#define exception_H
+#ifndef Exception_H
+#define Exception_H
 
 #include <iostream>
 
@@ -15,7 +15,7 @@ class cException
 {
 public:
 	cException  ();
-	cException  ( char *msg );
+	cException  ( char msg );
 	cException  ( const cException &c );
 	~cException ();
 
