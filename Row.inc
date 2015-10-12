@@ -12,10 +12,9 @@
 #include "Row.h"
 
 template<typename T>
-cRow<T>::cRow(cArray2D<T> &array, int row) : m_row	   ( row ),
-										     m_array2D ( array )
+cRow<T>::cRow  (cArray2D<T> &array, int row ) : m_row	  ( row ),
+											    m_array2D ( array )
 {
-
 }
 
 template<typename T>
