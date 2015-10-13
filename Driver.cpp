@@ -11,19 +11,30 @@
 
 int  main()
 {
-	//std::cout << "Hello Worlds" << std::endl;
-	cArray2D<int> sampleArray(2, 3);
-
-	int row = sampleArray.GetRow();
-	int col = sampleArray.GetCol();
-
-	for ( int rows = 0; rows > row; ++rows ) 
+	try
 	{
-		for ( int cols = 0; cols > col; ++cols ) 
-		{
-			std::cout << "(" << row << ", " << col << ") = " << sampleArray[ row ][ col ] << std::endl;
-		}
+		std::cout << "Hello Worlds" << std::endl;
+
+		cArray2D<int> sampleArray;
+		cArray2D<int> sampleArray1;
+
+		int row, col;
+
+		sampleArray.SetRow(2);
+		sampleArray.SetCol(3);
+		
+		row = sampleArray.GetRow();
+		col = sampleArray.GetCol();
+
+		std::cout << row << std::endl
+				  << col << std::endl;
+
 	}
+	catch (cException &e)
+	{
+		std::cout << e.GetMessage();
+	}
+
 
 	return 0;
 }
