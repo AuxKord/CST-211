@@ -13,56 +13,49 @@
 
 // Default Constructor
 template <typename T>
-cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ),
-						  m_array ( new T* [ m_row ] )
+cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ), m_array ( new T*[ 0 ] )
+						  
 {
-		for ( int rowCount = 0; rowCount < m_row; ++rowCount )
-		{
-			m_array [rowCount ] = ( new T [ m_col ] );
-
-			for ( int colCount = 0; colCount < m_col; ++colCount )
-			{
-				m_array[ rowCount ][ colCount ] = 0;
-			}
-		}
 }
 
 // Overloaded Constructor
 template <typename T>
 cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 											 m_col   ( col ),
-											 m_array ( new T* [ row ] )
+											 m_array ( new T*[ row ] )
 {
-	/*
+	for ( int rowCount = 0; rowCount < row; ++rowCount )
+	{
+		m_array[ rowCount ] = new T[ col ];
+	}
+
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
 		throw ERR_MEM_ALLOC;
 	}
-	else
-	{
-	}
-	*/
 }
 
 // Copy Constructor
 template <typename T>
 cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 										      m_col   ( c.m_col ),
-										      m_array ( new T* [ c.m_row ] )
+										      m_array ( new T* [ m_row ] )
 {
-		//
-		// Iterate through the array copying m_array values
-		// over to c.m_array
-		for ( int rowCount = 0; rowCount < m_row; ++rowCount )
-		{	
-			m_array[ rowCount ] = new T[ m_col ];
+	for ( int rowCount = 0; rowCount < m_row; ++rowCount )
+	{
+		m_array[ rowCount ] = new T[ m_col ];
 
-			for ( int colCount = 0; colCount < m_col; ++colCount )
-			{
-				m_array[ rowCount ][ colCount ] = c.m_array [ rowCount ][ colCount ];
-			}
+		for ( int colCount = 0; colCount < m_col; ++colCount )
+		{
+			m_array[ rowCount ][ colCount ] = c.m_array[ rowCount ][ colCount ];
 		}
+	}
+	// Verifying Memory Allocation
+	if (!m_array)
+	{
+		throw ERR_MEM_ALLOC;
+	}
 }
 
 // Destructor
@@ -80,11 +73,21 @@ cArray2D<T>::~cArray2D ()
 template <typename T>
 cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 {
+	if (this != rhs)
+	{
+		// Deleting original Array; Preventing Mem-Leaks
+		for (int dRow = 0; dRow < m_row; ++dRow)
+		{
+			delete[] m_array[dRow];
+		}
+		delete[] m_array;
 
-		// Copy row over to right hand side
-		// Copy col over to right hand side
+		// Copying member variables over to rhs
 		m_row = rhs.m_row;
 		m_col = rhs.m_col;
+
+		// New Array
+		m_array = new T*[m_row];
 
 		// Iterate through the array copying m_array values
 		// over to rhs.m_array
@@ -98,44 +101,43 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 			}
 		}
 	}
-
 	return *this;
 }
 
 // Const Subscript Operator Constructor
 template<typename T>
-const cRow<T> cArray2D<T>::operator[] ( int index ) const
+const cRow<T> cArray2D<T>::operator[] ( int row ) const
 {
-	m_row = index;
-	/*
 	try
 	{
-		index >= m_row;
+		if ( row >= m_row * m_col )
+		{
+			throw cException();
+		}
 	}
 	catch ( cException &e )
 	{
-		std::cout << e.GetMessage ();
+		std::cout << e.GetMessage();
 	}
-	*/
-	return cRow<T> ( *this, index );
+	return cRow<T> ( *this, row );
 }
 
 // Non-Const Subscript Operator Constructor
 template<typename T>
-cRow<T> cArray2D<T>::operator[] ( int index )
+cRow<T> cArray2D<T>::operator[] ( int row )
 {
-	m_row = index;
-	/*
 	try
 	{
-		( index >= m_row );
+		if ( row >= m_row * m_col )
+		{
+			throw cException();
+		}
 	}
 	catch ( cException &e )
 	{
-		std::cout << e.GetMessage ();
+		std::cout << e.GetMessage();
 	}
-	*/
-		return cRow<T> ( *this, index );
+	return cRow<T>( *this, row );
 }
 
 /**************************************************************
@@ -196,19 +198,18 @@ template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
 	m_row = row;
-	/*
+
 	try
 	{
-		if ( row != m_row )
+		if ( row >= m_row * m_col )
 		{
-			row = m_row;
+			throw cException();
 		}
 	}
 	catch ( cException &e )
 	{
-		std::cout << e.GetMessage ();
+		std::cout << e.GetMessage();
 	}
-	*/
 }
 
 /**************************************************************
@@ -233,20 +234,18 @@ template <typename T>
 void cArray2D<T>::SetCol ( int column )
 {
 	m_col = column;
-	
-	/*
+
 	try
 	{
-		if ( newCol != column )
+		if ( column >= m_row * m_col )
 		{
-			column = m_col;
+			throw cException();
 		}
 	}
-	catch (cException &e)
+	catch ( cException &e )
 	{
 		std::cout << e.GetMessage();
 	}
-	*/
 }
 
 /**************************************************************
@@ -271,14 +270,17 @@ T &cArray2D<T>::Select ( int row, int column )
 {
 	try
 	{
-		( row >= m_row ) || ( column >= m_col );
+		if ( ( row >= m_row ) || ( column >= m_row ) )
+		{
+			throw cException();
+		}
 	}
-	catch (cException &e)
+	catch ( cException &e )
 	{
 		std::cout << e.GetMessage();
 	}
 
-	return m_array [ row ] [ column ];
+	return m_array [ row * m_col + column ];
 }
 
 #endif
