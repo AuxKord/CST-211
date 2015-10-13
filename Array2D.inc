@@ -30,10 +30,24 @@ cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 	}
 
 	// Verifying Memory Allocation
-	if ( !m_array )
+	if (!m_array)
 	{
 		throw ERR_MEM_ALLOC;
 	}
+	/*
+	try
+	{
+		// Verifying Memory Allocation
+		if ( !m_array )
+		{
+			throw ERR_MEM_ALLOC;
+		}
+	}
+	catch ()
+	{
+
+	}
+	*/
 }
 
 // Copy Constructor
@@ -51,7 +65,8 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 			m_array[ rowCount ][ colCount ] = c.m_array[ rowCount ][ colCount ];
 		}
 	}
-	// Verifying Memory Allocation
+
+		// Verifying Memory Allocation
 	if (!m_array)
 	{
 		throw ERR_MEM_ALLOC;
@@ -73,12 +88,12 @@ cArray2D<T>::~cArray2D ()
 template <typename T>
 cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 {
-	if (this != rhs)
+	if ( this != &rhs )
 	{
 		// Deleting original Array; Preventing Mem-Leaks
 		for (int dRow = 0; dRow < m_row; ++dRow)
 		{
-			delete[] m_array[dRow];
+			delete[] m_array[ dRow] ;
 		}
 		delete[] m_array;
 
@@ -108,9 +123,10 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 template<typename T>
 const cRow<T> cArray2D<T>::operator[] ( int row ) const
 {
+	/*
 	try
 	{
-		if ( row >= m_row * m_col )
+		if ( row >= m_row )
 		{
 			throw cException();
 		}
@@ -119,6 +135,7 @@ const cRow<T> cArray2D<T>::operator[] ( int row ) const
 	{
 		std::cout << e.GetMessage();
 	}
+	*/
 	return cRow<T> ( *this, row );
 }
 
@@ -126,9 +143,10 @@ const cRow<T> cArray2D<T>::operator[] ( int row ) const
 template<typename T>
 cRow<T> cArray2D<T>::operator[] ( int row )
 {
+	/*
 	try
 	{
-		if ( row >= m_row * m_col )
+		if ( row >= m_row )
 		{
 			throw cException();
 		}
@@ -137,6 +155,7 @@ cRow<T> cArray2D<T>::operator[] ( int row )
 	{
 		std::cout << e.GetMessage();
 	}
+	*/
 	return cRow<T>( *this, row );
 }
 
@@ -197,11 +216,10 @@ int cArray2D<T>::GetCol ()
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
-	m_row = row;
-
+	/*
 	try
 	{
-		if ( row >= m_row * m_col )
+		if ( row >= m_row )
 		{
 			throw cException();
 		}
@@ -210,6 +228,8 @@ void cArray2D<T>::SetRow ( int row )
 	{
 		std::cout << e.GetMessage();
 	}
+	*/
+	m_row = row;
 }
 
 /**************************************************************
@@ -233,11 +253,10 @@ void cArray2D<T>::SetRow ( int row )
 template <typename T>
 void cArray2D<T>::SetCol ( int column )
 {
-	m_col = column;
-
+	/*
 	try
 	{
-		if ( column >= m_row * m_col )
+		if ( column >= m_col )
 		{
 			throw cException();
 		}
@@ -246,6 +265,8 @@ void cArray2D<T>::SetCol ( int column )
 	{
 		std::cout << e.GetMessage();
 	}
+	*/
+	m_col = column;
 }
 
 /**************************************************************
@@ -268,9 +289,10 @@ void cArray2D<T>::SetCol ( int column )
 template <typename T>
 T &cArray2D<T>::Select ( int row, int column )
 {
+	/*
 	try
 	{
-		if ( ( row >= m_row ) || ( column >= m_row ) )
+		if ( ( row >= m_row ) || ( column >= m_col ) )
 		{
 			throw cException();
 		}
@@ -280,7 +302,9 @@ T &cArray2D<T>::Select ( int row, int column )
 		std::cout << e.GetMessage();
 	}
 
-	return m_array [ row * m_col + column ];
+	//return m_array [ row * m_col + column ];
+	*/
+	return m_array[row][column];
 }
 
 #endif

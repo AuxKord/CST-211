@@ -13,19 +13,30 @@ int  main()
 {
 		std::cout << "Hello Worlds" << std::endl;
 
-		cArray2D<int> sampleArray;
+		cArray2D<int> sampleArray(4,4);
 		cArray2D<int> sampleArray1;
 
-		int row, col;
-
-		sampleArray.SetRow(2);
-		sampleArray.SetCol(3);
+		int rowCount, colCount;
 		
-		row = sampleArray.GetRow();
-		col = sampleArray.GetCol();
+		rowCount = sampleArray.GetRow();
+		colCount = sampleArray.GetCol();
 
-		std::cout << row << std::endl
-				  << col << std::endl;
+		//std::cout << row << std::endl
+			//	  << col << std::endl;
+
+		for (int row = 0; rowCount > row; ++row) {
+			for (int col = 0; colCount > col; ++col) {
+				std::cout << "(" << row << ", " << col << ") = " << sampleArray[row][col] << std::endl;
+			}
+		}
+
+		sampleArray = sampleArray1;
+
+		for (int row = 0; rowCount > row; ++row) {
+			for (int col = 0; colCount > col; ++col) {
+				std::cout << "(" << row << ", " << col << ") = " << sampleArray1[row][col] << std::endl;
+			}
+		}
 
 
 	return 0;

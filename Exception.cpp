@@ -14,11 +14,7 @@
 //
 cException::cException () : m_msg ( new char [ 0 ] )
 {
-	// Verifying memory allocation
-	if ( !m_msg )
-	{
-		throw ERR_MEM_ALLOC;
-	}
+
 }
 
 //
@@ -26,19 +22,16 @@ cException::cException () : m_msg ( new char [ 0 ] )
 //
 cException::cException ( char *msg ) : m_msg ( new char [ *msg ] )
 {
-	// Verifying memory allocation
-	if ( !m_msg )
-	{
-		throw ERR_MEM_ALLOC;
-	}
-	else
-	{
 		// Copying Array values from m_array to c.m_array
 		for ( int i = 0; i <= *msg; ++i )
 		{
 			m_msg[ i ];
 		}
-	}
+		// Verifying memory allocation
+		if (!m_msg)
+		{
+			throw ERR_MEM_ALLOC;
+		}
 }
 
 //
@@ -46,18 +39,16 @@ cException::cException ( char *msg ) : m_msg ( new char [ *msg ] )
 //
 cException::cException ( const cException &c ) : m_msg ( new char[ *m_msg ] )
 {
+	// Copying Array values from m_array to c.m_array
+	for ( int j = 0; j <= *m_msg; ++j )
+	{
+		m_msg[ j ] = c.m_msg [ j ];
+	}
+
 	// Verifying memory allocation
-	if ( !m_msg )
+	if (!m_msg)
 	{
 		throw ERR_MEM_ALLOC;
-	}
-	else
-	{
-		// Copying Array values from m_array to c.m_array
-		for ( int j = 0; j <= *m_msg; ++j )
-		{
-			m_msg[ j ] = c.m_msg [ j ];
-		}
 	}
 }
 
