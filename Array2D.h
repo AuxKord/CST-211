@@ -43,7 +43,7 @@ class cArray2D
 {
 public:
 	cArray2D  ();									// Default Constructor
-	cArray2D  ( int row, int col = 0 );				// Overloaded Row & Col constructor
+	cArray2D  ( int row, int col );				// Overloaded Row & Col constructor
 	cArray2D  ( const cArray2D &c );				// Copy Construtor
 	~cArray2D ();									// Destructor
 
