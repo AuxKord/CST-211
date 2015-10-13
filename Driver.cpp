@@ -11,8 +11,6 @@
 
 int  main()
 {
-	try
-	{
 		std::cout << "Hello Worlds" << std::endl;
 
 		cArray2D<int> sampleArray;
@@ -28,12 +26,6 @@ int  main()
 
 		std::cout << row << std::endl
 				  << col << std::endl;
-
-	}
-	catch (cException &e)
-	{
-		std::cout << e.GetMessage();
-	}
 
 
 	return 0;

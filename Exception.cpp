@@ -44,7 +44,7 @@ cException::cException ( char *msg ) : m_msg ( new char [ *msg ] )
 //
 // Deep-Copy Copy Constructor
 //
-cException::cException ( const cException &c ) : m_msg ( new char[ *c.m_msg ] )
+cException::cException ( const cException &c ) : m_msg ( new char[ *m_msg ] )
 {
 	// Verifying memory allocation
 	if ( !m_msg )
@@ -81,20 +81,7 @@ cException & cException::operator= ( const cException &rhs )
 		delete[] m_msg;
 		m_msg = 0;
 
-		// Creating the array
-		m_msg = ( new char [ *m_msg ] );
-
-		// Verifying memory allocation
-		if ( !m_msg )
-		{
-			throw ERR_MEM_ALLOC;
-		}
-
-		// Copying Array values from m_msg to rhs.m_msg
-		for ( int k = 0; k <= *m_msg; ++k)
-		{
-			m_msg[ k ] = rhs.m_msg[ k ];
-		}
+		m_msg = rhs.m_msg;
 	}
 
 	return *this;

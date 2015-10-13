@@ -25,7 +25,7 @@ public:
 
 	friend std::ostream &operator<< (std::ostream &stream, const cException &e) 
 	{
-		return stream << e.m_msg;
+		return stream << "Handled Exception: " << e.m_msg;
 	}
 
 	const char* GetMessage () const;
