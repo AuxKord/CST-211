@@ -13,15 +13,18 @@
 
 // Default Constructor
 template <typename T>
-cArray2D<T>::cArray2D() : m_row ( 0 ), 
-						  m_col ( 0 ), 
-						  m_array ( new T* [ 0 ] )
+cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ),
+						  m_array ( new T* [ m_row ] )
 {
-	// Verifying Memory Allocation
-	if ( !m_array )
-	{
-		throw ERR_MEM_ALLOC;
-	}
+		for ( int rowCount = 0; rowCount < m_row; ++rowCount )
+		{
+			m_array [rowCount ] = ( new T [ m_col ] );
+
+			for ( int colCount = 0; colCount < m_col; ++colCount )
+			{
+				m_array[ rowCount ][ colCount ] = 0;
+			}
+		}
 }
 
 // Overloaded Constructor
@@ -30,6 +33,7 @@ cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 											 m_col   ( col ),
 											 m_array ( new T* [ row ] )
 {
+	/*
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
@@ -37,104 +41,62 @@ cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 	}
 	else
 	{
-		// Allocate memory for the new array
-		for ( int i = 0; i < row; ++i )
-		{
-			m_array [ i ] = ( new T [ col ] );
-		}
 	}
+	*/
 }
 
 // Copy Constructor
 template <typename T>
 cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 										      m_col   ( c.m_col ),
-										      m_array ( new T* [ c.m_array ] )
+										      m_array ( new T* [ c.m_row ] )
 {
-	// Verifying Memory Allocation
-	if ( !m_array )
-	{
-		throw ERR_MEM_ALLOC;
-	}
-	else 
-	{
+		//
 		// Iterate through the array copying m_array values
 		// over to c.m_array
-		for ( int rows = 0; rows < m_row; ++rows )
-		{
-			for ( int cols = 0; cols < m_col; ++cols )
+		for ( int rowCount = 0; rowCount < m_row; ++rowCount )
+		{	
+			m_array[ rowCount ] = new T[ m_col ];
+
+			for ( int colCount = 0; colCount < m_col; ++colCount )
 			{
-				m_array [ row ][ col ] = c.m_array [ row ][ col ];
+				m_array[ rowCount ][ colCount ] = c.m_array [ rowCount ][ colCount ];
 			}
 		}
-	}
 }
 
 // Destructor
 template <typename T>
 cArray2D<T>::~cArray2D ()
 {
-	for ( int i = 0; i < m_row; ++i )
+	for ( int dRow = 0; dRow < m_row; ++dRow )
 	{
-		delete[] m_array [ m_col ];
+			delete[] m_array[ dRow ];
 	}
 	delete[] m_array;
-	m_array = 0;
 }
 
 // Assignment Operator Overload Constructor
 template <typename T>
 cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 {
-	// Checking to make sure there's no self assignment
-	if ( this != &rhs )
-	{
-		for ( int rows = 0; rows < m_row; ++rows )
-		{
-			for ( int cols = 0; cols < m_col; ++cols )
-			{
-				delete[] m_array [ m_row ][ m_col ];
-			}
-		}
-		delete[] m_array;
-		m_array = 0;
 
 		// Copy row over to right hand side
 		// Copy col over to right hand side
 		m_row = rhs.m_row;
 		m_col = rhs.m_col;
 
-		// Create new array
-		m_array = ( new T* [ row ] );
+		// Iterate through the array copying m_array values
+		// over to rhs.m_array
+		for (int rowCount = 0; rowCount < m_row; ++rowCount)
+		{
+			m_array[rowCount] = new T[m_col];
 
-		// Allocate memory for the new array
-		for ( int i = 0; i < row; ++i )
-		{
-			m_array [ i ] = ( new T [ col ] );
-		}
-
-		// 
-		if ( !m_array )
-		{
-			throw ERR_MEM_ALLOC;
-		}
-		else
-		{
-			// Iterate through the array copying m_array values
-			// over to rhs.m_array
-			for ( int rows = 0; rows < m_row; ++rows )
+			for (int colCount = 0; colCount < m_col; ++colCount)
 			{
-				for ( int cols = 0; cols < m_col; ++cols )                                         
-				{
-					m_array [ m_row ][ m_col ] = rhs.m_array [ rhs.m_row ][ rhs.m_col ];
-				}
+				m_array[rowCount][colCount] = rhs.m_array[rowCount][colCount];
 			}
 		}
-
-	}
-	else
-	{
-		// Throw Self Assignment Exception
 	}
 
 	return *this;
@@ -144,6 +106,8 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 template<typename T>
 const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
+	m_row = index;
+	/*
 	try
 	{
 		index >= m_row;
@@ -152,7 +116,7 @@ const cRow<T> cArray2D<T>::operator[] ( int index ) const
 	{
 		std::cout << e.GetMessage ();
 	}
-
+	*/
 	return cRow<T> ( *this, index );
 }
 
@@ -160,6 +124,8 @@ const cRow<T> cArray2D<T>::operator[] ( int index ) const
 template<typename T>
 cRow<T> cArray2D<T>::operator[] ( int index )
 {
+	m_row = index;
+	/*
 	try
 	{
 		( index >= m_row );
@@ -168,7 +134,7 @@ cRow<T> cArray2D<T>::operator[] ( int index )
 	{
 		std::cout << e.GetMessage ();
 	}
-
+	*/
 		return cRow<T> ( *this, index );
 }
 
@@ -229,20 +195,20 @@ int cArray2D<T>::GetCol ()
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
-	int newRow = ( ( m_row < row ? m_row : row ) || ( m_row > row ? m_row : row ) );
-
+	m_row = row;
+	/*
 	try
 	{
-		if ( newRow != m_row )
+		if ( row != m_row )
 		{
-			newRow = m_row;
+			row = m_row;
 		}
 	}
 	catch ( cException &e )
 	{
 		std::cout << e.GetMessage ();
 	}
-
+	*/
 }
 
 /**************************************************************
@@ -266,20 +232,21 @@ void cArray2D<T>::SetRow ( int row )
 template <typename T>
 void cArray2D<T>::SetCol ( int column )
 {
-	int newcol = ( ( m_col < column ? m_col : column ) || ( m_col > column ? m_col : column ) );
-
+	m_col = column;
+	
+	/*
 	try
 	{
-		if ( newCol != m_col )
+		if ( newCol != column )
 		{
-			newCol = m_col;
+			column = m_col;
 		}
 	}
 	catch (cException &e)
 	{
 		std::cout << e.GetMessage();
 	}
-
+	*/
 }
 
 /**************************************************************
