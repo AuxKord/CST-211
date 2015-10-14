@@ -13,7 +13,7 @@
 #include "Exception.h"
 
 /************************************************************************
-* Class: cTime
+* Class: cArray2D
 *
 * Constructors:
 *	cArray2D ()
