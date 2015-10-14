@@ -9,20 +9,34 @@
 #include  <iostream>
 #include "Array2D.h"
 
+using namespace std;
+//
+// Test valid limits for an Array object with a
+// lower index of zero.
+//
+
 int  main()
 {
+	/***********************************************************
+	*
+	*					INCOMPLETE
+	*
+	************************************************************/
+
 		std::cout << "Hello Worlds" << std::endl;
 
-		cArray2D<int> sampleArray(4,4);
+
+		cArray2D<int> sampleArray(4, 4);
 		cArray2D<int> sampleArray1;
 
+
 		int rowCount, colCount;
-		
+
 		rowCount = sampleArray.GetRow();
 		colCount = sampleArray.GetCol();
 
 		//std::cout << row << std::endl
-			//	  << col << std::endl;
+		//	  << col << std::endl;
 
 		for (int row = 0; rowCount > row; ++row) {
 			for (int col = 0; colCount > col; ++col) {
@@ -37,6 +51,10 @@ int  main()
 				std::cout << "(" << row << ", " << col << ") = " << sampleArray1[row][col] << std::endl;
 			}
 		}
+
+
+
+
 
 
 	return 0;
