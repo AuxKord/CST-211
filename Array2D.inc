@@ -1,7 +1,7 @@
 /***********************************************************
 * Author:				Abdul Yahya
 * Created:				10/04/15
-* Updated:				10/10/15
+* Updated:				10/13/15
 * H.W. Number:			CST 211 Assignment 2
 * Filename:				Array2D.inc
 ************************************************************/
@@ -13,7 +13,7 @@
 
 // Default Constructor
 template <typename T>
-cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ), m_array ( new T*[ 0 ] )
+cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ), m_array ( new T* [ 0 ] )
 						  
 {
 }
@@ -22,66 +22,47 @@ cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ), m_array ( new T*[ 0 ] )
 template <typename T>
 cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 											 m_col   ( col ),
-											 m_array ( new T*[ row ] )
+											 m_array ( new T* [ row ] )
 {
 	for ( int rowCount = 0; rowCount < row; ++rowCount )
 	{
-		m_array[ rowCount ] = new T[ col ];
+		m_array [ rowCount ] = new T [ col ];
 	}
-
-	// Verifying Memory Allocation
-	if (!m_array)
-	{
-		throw ERR_MEM_ALLOC;
-	}
-	/*
-	try
-	{
-		// Verifying Memory Allocation
-		if ( !m_array )
-		{
-			throw ERR_MEM_ALLOC;
-		}
-	}
-	catch ()
-	{
-
-	}
-	*/
 }
 
 // Copy Constructor
 template <typename T>
 cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 										      m_col   ( c.m_col ),
-										      m_array ( new T* [ m_row ] )
+										      m_array ( new T* [ c.m_row ] )
 {
 	for ( int rowCount = 0; rowCount < m_row; ++rowCount )
 	{
-		m_array[ rowCount ] = new T[ m_col ];
+		m_array[ rowCount ] = new T [ c.m_col ];
 
 		for ( int colCount = 0; colCount < m_col; ++colCount )
 		{
-			m_array[ rowCount ][ colCount ] = c.m_array[ rowCount ][ colCount ];
+			m_array [ rowCount ][ colCount ] = c.m_array [ rowCount ][ colCount ];
 		}
-	}
-
-		// Verifying Memory Allocation
-	if (!m_array)
-	{
-		throw ERR_MEM_ALLOC;
 	}
 }
 
 // Destructor
 template <typename T>
 cArray2D<T>::~cArray2D ()
-{
-	for ( int dRow = 0; dRow < m_row; ++dRow )
+{		
+	// Verifying Memory Allocation
+	if ( !m_array )
 	{
-			delete[] m_array[ dRow ];
+		throw cException ( "Bad Memory Allocation" );
 	}
-	delete[] m_array;
+
+		for (int dRow = 0; dRow < m_row; ++dRow)
+		{
+			delete[] m_array[dRow];
+		}
+		delete[] m_array;
+
 }
 
 // Assignment Operator Overload Constructor
@@ -93,7 +74,7 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		// Deleting original Array; Preventing Mem-Leaks
 		for (int dRow = 0; dRow < m_row; ++dRow)
 		{
-			delete[] m_array[ dRow] ;
+			delete[] m_array [ dRow] ;
 		}
 		delete[] m_array;
 
@@ -102,17 +83,17 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		m_col = rhs.m_col;
 
 		// New Array
-		m_array = new T*[m_row];
+		m_array = new T* [ rhs.m_row ];
 
 		// Iterate through the array copying m_array values
 		// over to rhs.m_array
-		for (int rowCount = 0; rowCount < m_row; ++rowCount)
+		for ( int rowCount = 0; rowCount < m_row; ++rowCount )
 		{
-			m_array[rowCount] = new T[m_col];
+			m_array [ rowCount ] = new T [ rhs.m_col ];
 
-			for (int colCount = 0; colCount < m_col; ++colCount)
+			for ( int colCount = 0; colCount < m_col; ++colCount )
 			{
-				m_array[rowCount][colCount] = rhs.m_array[rowCount][colCount];
+				m_array [ rowCount ][ colCount ] = rhs.m_array [ rowCount ][ colCount ];
 			}
 		}
 	}
@@ -121,42 +102,26 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 
 // Const Subscript Operator Constructor
 template<typename T>
-const cRow<T> cArray2D<T>::operator[] ( int row ) const
+const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
-	/*
-	try
+	if ( index >= m_row )
 	{
-		if ( row >= m_row )
-		{
-			throw cException();
-		}
+		throw cException("Exception: Bad Bounds");
 	}
-	catch ( cException &e )
-	{
-		std::cout << e.GetMessage();
-	}
-	*/
-	return cRow<T> ( *this, row );
+
+	return cRow<T> ( *this, index );
 }
 
 // Non-Const Subscript Operator Constructor
 template<typename T>
-cRow<T> cArray2D<T>::operator[] ( int row )
+cRow<T> cArray2D<T>::operator[] ( int index )
 {
-	/*
-	try
+	if ( index >= m_row )
 	{
-		if ( row >= m_row )
-		{
-			throw cException();
-		}
+		throw cException("Exception: Bad Bounds");
 	}
-	catch ( cException &e )
-	{
-		std::cout << e.GetMessage();
-	}
-	*/
-	return cRow<T>( *this, row );
+
+	return cRow<T>( *this, index );
 }
 
 /**************************************************************
@@ -209,26 +174,17 @@ int cArray2D<T>::GetCol ()
 *          Exit:  Shallow copies int row over to the
 *				  private member variable m_row.
 *
-* 	  Exception:  If the value of int row is eqaul to what
-*				  m_row already has stored then throw a bad
-*				  bounds exception.
+* 	  Exception:  If the value of int row is Greater than
+*				  or equal to m_row throw a bad bounds exception.
 ****************************************************************/
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
-	/*
-	try
+	if ( row >= m_row )
 	{
-		if ( row >= m_row )
-		{
-			throw cException();
-		}
+		throw cException("Exception: Bad Bounds");
 	}
-	catch ( cException &e )
-	{
-		std::cout << e.GetMessage();
-	}
-	*/
+
 	m_row = row;
 }
 
@@ -246,26 +202,17 @@ void cArray2D<T>::SetRow ( int row )
 *          Exit:  Shallow copies int column over to the
 *				  private member variable m_col.
 *
-* 	  Exception:  If the value of int col is eqaul to what
-*				  m_cols already has stored then throw a bad
-*				  bounds exception.
+* 	  Exception:  If the value of int row is Greater than
+*				  or equal to m_row throw a bad bounds exception.
 ****************************************************************/
 template <typename T>
 void cArray2D<T>::SetCol ( int column )
 {
-	/*
-	try
+	if ( column >= m_col )
 	{
-		if ( column >= m_col )
-		{
-			throw cException();
-		}
+		throw cException("Exception: Bad Bounds");
 	}
-	catch ( cException &e )
-	{
-		std::cout << e.GetMessage();
-	}
-	*/
+	
 	m_col = column;
 }
 
@@ -282,29 +229,18 @@ void cArray2D<T>::SetCol ( int column )
 *				  values.
 *
 * 	  Exception:  If values of either integers row and column 
-*				  are greater than member variables m_row and 
-*		          m_col an Out of Bounds Exception will be 
-*			      thrown.
+*				  are greater than or equal to member variables 
+*				  m_row and m_col throw a Bad Bounds Exception.
 ****************************************************************/
 template <typename T>
 T &cArray2D<T>::Select ( int row, int column )
 {
-	/*
-	try
+	if ( ( row >= m_row ) || ( column >= m_col ) )
 	{
-		if ( ( row >= m_row ) || ( column >= m_col ) )
-		{
-			throw cException();
-		}
-	}
-	catch ( cException &e )
-	{
-		std::cout << e.GetMessage();
+		throw cException("Exception: Bad Bounds");
 	}
 
-	//return m_array [ row * m_col + column ];
-	*/
-	return m_array[row][column];
+	return m_array [ row ][ column ];
 }
 
 #endif
