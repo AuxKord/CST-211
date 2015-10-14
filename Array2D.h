@@ -1,7 +1,7 @@
 /***********************************************************
 * Author:				Abdul Yahya
 * Created:				10/04/15
-* Updated:				10/10/15
+* Updated:				10/13/15
 * H.W. Number:			CST 211 Assignment 2
 * Filename:				Array2D.h
 ************************************************************/
@@ -43,7 +43,7 @@ class cArray2D
 {
 public:
 	cArray2D  ();									// Default Constructor
-	cArray2D  ( int row, int col );				// Overloaded Row & Col constructor
+	cArray2D  ( int row, int col = 0 );				// Overloaded Row & Col constructor
 	cArray2D  ( const cArray2D &c );				// Copy Construtor
 	~cArray2D ();									// Destructor
 
