@@ -1,69 +1,45 @@
 /***********************************************************
 * Author:				Abdul Yahya
 * Created:				09/29/15
-* Updated:				10/03/15
+* Updated:				10/13/15
 * H.W. Number:			CST 211 Assignment 1
 * Filename:				exception.cpp
 ************************************************************/
+#define  _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
-
 #include "Exception.h"
-//
+
 // Default Constructor
-//
-cException::cException () : m_msg ( new char [ 0 ] )
+cException::cException () : m_msg ( 0 )
 {
-
 }
 
-//
 // Overloaded Exception::Exception () Constructor
-//
-cException::cException ( char *msg ) : m_msg ( new char [ *msg ] )
+cException::cException ( char *msg ) : m_msg ( new char [ strlen ( msg ) + 1 ] )
 {
-		// Copying Array values from m_array to c.m_array
-		for ( int i = 0; i <= *msg; ++i )
-		{
-			m_msg[ i ];
-		}
-		// Verifying memory allocation
-		if (!m_msg)
-		{
-			throw ERR_MEM_ALLOC;
-		}
 }
 
-//
 // Deep-Copy Copy Constructor
-//
-cException::cException ( const cException &c ) : m_msg ( new char[ *m_msg ] )
+cException::cException ( const cException &c ) : m_msg ( new char[ strlen ( c.m_msg ) +1 ] )
 {
-	// Copying Array values from m_array to c.m_array
-	for ( int j = 0; j <= *m_msg; ++j )
-	{
-		m_msg[ j ] = c.m_msg [ j ];
-	}
-
-	// Verifying memory allocation
-	if (!m_msg)
-	{
-		throw ERR_MEM_ALLOC;
-	}
+	strcpy ( m_msg, c.m_msg );
 }
 
-//
 // Deconstructor
-//
 cException::~cException()
 {
+	// Verifying m_msg allocation
+	if (!m_msg)
+	{
+		throw cException("Bad Memory Allocation");
+	}
+
 	delete[] m_msg;
 	m_msg = 0;
 }
 
-//
 // Overloaded Assignment Operator constructor 
-//
 cException & cException::operator= ( const cException &rhs )
 {
 	// Checking to make sure there's no self assignment
@@ -72,36 +48,38 @@ cException & cException::operator= ( const cException &rhs )
 		delete[] m_msg;
 		m_msg = 0;
 
-		m_msg = rhs.m_msg;
-	}
+		// Creating the array
+		m_msg = new char [ strlen ( rhs.m_msg ) +1 ] ;
 
+		strcpy ( m_msg, rhs.m_msg );
+	}
 	return *this;
 }
 
 /**************************************************************
 * Function: const char * cException::getMessage()
 *
-*		Purpose:  Reads the input data for each row value
-*				  stored in m_row.
+*		Purpose:  Get the Char array m_msg containing an array
+*				  of the Exception Message.
 *
 *		  Entry:  None.
 *
-*          Exit:  Returns the private member variable m_row,
-*				  allowing the Select function to access the
-*				  data.
+*          Exit:  Returns the private member variable m_msg,
+*				  allowing SetMessage to copy the string msg
+*				  into it.
 ****************************************************************/
 const char * cException::GetMessage() const
 {
-	return "A Bounds error Occurred. Please verify bounds and try again.";
+	return m_msg;
 }
 
 /**************************************************************
 * Function: void cException::setMessage ( char * msg )
 *
-*		Purpose:  Reads the input data for each row value
-*				  stored in m_row.
+*		Purpose:  Set the various Exception Messages 
+*				  that are set to be thrown.
 *
-*		  Entry:  None.
+*		  Entry:  Char pointer msg.
 *
 *          Exit:  Returns the private member variable m_row,
 *				  allowing the Select function to access the
@@ -109,5 +87,5 @@ const char * cException::GetMessage() const
 ****************************************************************/
 void cException::SetMessage ( char * msg )
 {
-	msg = m_msg;
+	strcpy ( msg, m_msg );
 }
