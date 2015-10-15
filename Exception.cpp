@@ -32,7 +32,6 @@ cException::~cException()
 	// Verifying m_msg allocation
 	if (!m_msg)
 	{
-		throw cException("Bad Memory Allocation");
 	}
 
 	delete[] m_msg;

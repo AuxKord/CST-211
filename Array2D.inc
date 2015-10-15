@@ -54,7 +54,8 @@ cArray2D<T>::~cArray2D ()
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
-		throw cException ( "Bad Memory Allocation" );
+		//throw cException ( "Bad Memory Allocation" );
+		throw ERR_BAD_MEM;
 	}
 
 		for (int dRow = 0; dRow < m_row; ++dRow)
@@ -81,7 +82,8 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		// Copying member variables over to rhs
 		m_row = rhs.m_row;
 		m_col = rhs.m_col;
-
+		m_array = rhs.m_array;
+		/*
 		// New Array
 		m_array = new T* [ rhs.m_row ];
 
@@ -96,6 +98,7 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 				m_array [ rowCount ][ colCount ] = rhs.m_array [ rowCount ][ colCount ];
 			}
 		}
+		*/
 	}
 	return *this;
 }
@@ -106,7 +109,7 @@ const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
 	if ( index >= m_row )
 	{
-		throw cException("Exception: Bad Bounds");
+		//throw cException("Exception: Bad Bounds");
 	}
 
 	return cRow<T> ( *this, index );
@@ -114,11 +117,13 @@ const cRow<T> cArray2D<T>::operator[] ( int index ) const
 
 // Non-Const Subscript Operator Constructor
 template<typename T>
-cRow<T> cArray2D<T>::operator[] ( int index )
+cRow<T> cArray2D<T>::operator[] ( int index ) throw ( int )
 {
+
 	if ( index >= m_row )
 	{
 		throw cException("Exception: Bad Bounds");
+		//throw ERR_BAD_MEM;
 	}
 
 	return cRow<T>( *this, index );
@@ -180,11 +185,6 @@ int cArray2D<T>::GetCol ()
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
-	if ( row >= m_row )
-	{
-		throw cException("Exception: Bad Bounds");
-	}
-
 	m_row = row;
 }
 
@@ -210,7 +210,8 @@ void cArray2D<T>::SetCol ( int column )
 {
 	if ( column >= m_col )
 	{
-		throw cException("Exception: Bad Bounds");
+		//throw cException("Exception: Bad Bounds");
+		throw ERR_BAD_MEM;
 	}
 	
 	m_col = column;
@@ -235,12 +236,10 @@ void cArray2D<T>::SetCol ( int column )
 template <typename T>
 T &cArray2D<T>::Select ( int row, int column )
 {
-	if ( ( row >= m_row ) || ( column >= m_col ) )
-	{
-		throw cException("Exception: Bad Bounds");
-	}
+	//m_array[row][column] = 10;
 
-	return m_array [ row ][ column ];
+	return m_array[row][column];
+	//return m_array [ row * m_col + column ];
 }
 
 #endif

@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string.h>
 
+#define ERR_BAD_MEM 1
 
 /************************************************************************
 * Class: cException
