@@ -7,37 +7,118 @@
 ************************************************************/
 
 #include  <iostream>
+#include <iomanip>
 #include "Array2D.h"
 
 using namespace std;
 
+void fillArray(cArray2D<int> data, int rowCount, int colCount)
+{
+	for (int r = 0; r < rowCount; ++r )
+	{
+		cout << " Enter " << colCount << " numbers for the row " << r << ": ";
+		for (int c = 0; c < colCount; ++c )
+		{
+			cin >> data[r][c];
+			cout << endl;
+		}
+	}
+}
+
+void printArray(cArray2D<int> data, int rowCount, int colCount)
+{
+	for (int r = 0; r < rowCount; ++r)
+	{
+		for (int c = 0; c < colCount; ++c)
+		{
+			cout << setw(5) << data[r][c];
+			cout << endl;
+		}
+	}
+}
 
 int  main()
 {
 	/***********************************************************
 	*
 	*					INCOMPLETE
+	// declare a two-dimensional array variable
+	// and allocate the desired number of rows
+	int [][] irregularArray = new int [numberOfRows][];
+	// now allocate space for the elements in each row
+	for (int i = 0; i < numberOfRows; i++)
+	irregularArray[i] = new int [size[i]];
 	*
 	************************************************************/
 	
-		cArray2D<int> sampleArray(5, 5);
-		//cArray2D<int> sampleArray1;
+	cArray2D<int> data;
+	int rowCount = data.GetRow();
+	int colCount = data.GetCol();
 
-		int rowCount = 10, colCount = 10;
+	cout << "Enter the number of Rows: ";
+	cin >> rowCount;
+	cout << "Enter the number of Columns: ";
+	cin >> colCount;
+	cout << endl;
 
-		rowCount = sampleArray.Select(1,1);
-		colCount = sampleArray.GetCol();
 
+	fillArray(data, rowCount, colCount);
+
+	printArray(data, rowCount, colCount);
+	/*
+	for (int i = 0; i<W; i++)
+		for (int j = 0; j<H; j++)
+			oneD[H*i + j] = m[j][i];
+	for (int i = 0; i<H*W; i++)
+		std::cout << oneD[i] << " ";
+
+		//cout << rowCount << ' ' << colCount;
+		//rowCount = data.GetRow(); colCount = data.GetCol();
+
+		for (int r = 0; r < rowCount; ++r )
+		{
+			for (int c = 0; c < colCount; ++c)
+			{
+				//data.SetRow (num);
+				//data.SetCol (num);
+
+				data[r][c] = num;
+				++num;
+			}
+		}
+
+		for (int r = 0; r < rowCount; ++r)
+		{
+			cout << "Row: " << data[rowCount][colCount] << ' ' <<  "Col: " 
+				 << endl;
+		}
+
+		
+		//data.Select(rowCount, colCount);
+		// Enter data into array
+		/*
+		for (int r = 0; r < rowCount; ++r )
+		{
+			for (int c = 0; c < colCount; ++ c)
+			{
+				data.Select(r, c);
+			}
+		}
+		
+		//display array
+		cout << "Table of the Array 'Data' displayed by rows and columns"
+			 << endl;
+		cout << setw(4) << "Row" << setw(8) << "Col"
+			<< endl
+			<< data.Select(rowCount,colCount);
+
+			*/
 		//std::cout << row << std::endl
 		//	  << col << std::endl;
 
 
-		for (int row = 0; rowCount > row; ++row) {
-			for (int col = 0; colCount > col; ++col) {
-				std::cout << "(" << row << ", " << col << ") = " << sampleArray[row][col] << std::endl;
-			}
-		}
 		
-
+		//Display the Array
+	
 	return 0;
 }

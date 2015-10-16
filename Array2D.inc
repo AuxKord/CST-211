@@ -50,14 +50,15 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 // Destructor
 template <typename T>
 cArray2D<T>::~cArray2D ()
-{		
+{	
+	/*
 	// Verifying Memory Allocation
 	if ( !m_array )
 	{
 		//throw cException ( "Bad Memory Allocation" );
-		throw ERR_BAD_MEM;
+		//throw ERR_BAD_MEM;
 	}
-
+	*/
 		for (int dRow = 0; dRow < m_row; ++dRow)
 		{
 			delete[] m_array[dRow];
@@ -107,26 +108,16 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 template<typename T>
 const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
-	if ( index >= m_row )
-	{
-		//throw cException("Exception: Bad Bounds");
-	}
-
-	return cRow<T> ( *this, index );
+	//Exception
+	return cRow<T> ( GetRow(), index );
 }
 
 // Non-Const Subscript Operator Constructor
 template<typename T>
-cRow<T> cArray2D<T>::operator[] ( int index ) throw ( int )
+cRow<T> cArray2D<T>::operator[] ( int index )
 {
-
-	if ( index >= m_row )
-	{
-		throw cException("Exception: Bad Bounds");
-		//throw ERR_BAD_MEM;
-	}
-
-	return cRow<T>( *this, index );
+	// Exception
+	return cRow<T>( m_row, index );
 }
 
 /**************************************************************
@@ -185,6 +176,12 @@ int cArray2D<T>::GetCol ()
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
+	/*
+	for (int r = 0; r < row; ++r)
+	{
+		m_row = row;
+	}
+	*/
 	m_row = row;
 }
 
@@ -208,12 +205,13 @@ void cArray2D<T>::SetRow ( int row )
 template <typename T>
 void cArray2D<T>::SetCol ( int column )
 {
-	if ( column >= m_col )
+	/*
+	for ( int c = 0; c < column; ++c )
 	{
-		//throw cException("Exception: Bad Bounds");
-		throw ERR_BAD_MEM;
+		m_col = column;
 	}
-	
+	*/
+	//Exception
 	m_col = column;
 }
 
@@ -236,10 +234,9 @@ void cArray2D<T>::SetCol ( int column )
 template <typename T>
 T &cArray2D<T>::Select ( int row, int column )
 {
-	//m_array[row][column] = 10;
 
-	return m_array[row][column];
-	//return m_array [ row * m_col + column ];
+	//return m_array[row][column];
+	return m_array [ row * m_col + column ];
 }
 
 #endif
