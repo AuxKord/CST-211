@@ -27,6 +27,10 @@ cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 	for ( int rowCount = 0; rowCount < row; ++rowCount )
 	{
 		m_array [ rowCount ] = new T [ col ];
+		for (int colCount = 0; colCount < col; ++colCount)
+		{
+			m_array[rowCount][colCount] = 0;
+		}
 	}
 }
 
@@ -39,32 +43,29 @@ cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
 	for ( int rowCount = 0; rowCount < m_row; ++rowCount )
 	{
 		m_array[ rowCount ] = new T [ c.m_col ];
-
 		for ( int colCount = 0; colCount < m_col; ++colCount )
 		{
 			m_array [ rowCount ][ colCount ] = c.m_array [ rowCount ][ colCount ];
 		}
 	}
+	
+	//copy(c.m_array);
 }
 
 // Destructor
 template <typename T>
 cArray2D<T>::~cArray2D ()
 {	
-	/*
-	// Verifying Memory Allocation
 	if ( !m_array )
 	{
 		//throw cException ( "Bad Memory Allocation" );
 		//throw ERR_BAD_MEM;
 	}
-	*/
 		for (int dRow = 0; dRow < m_row; ++dRow)
 		{
 			delete[] m_array[dRow];
 		}
 		delete[] m_array;
-
 }
 
 // Assignment Operator Overload Constructor
@@ -73,7 +74,6 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 {
 	if ( this != &rhs )
 	{
-		// Deleting original Array; Preventing Mem-Leaks
 		for (int dRow = 0; dRow < m_row; ++dRow)
 		{
 			delete[] m_array [ dRow] ;
@@ -81,9 +81,10 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 		delete[] m_array;
 
 		// Copying member variables over to rhs
-		m_row = rhs.m_row;
-		m_col = rhs.m_col;
-		m_array = rhs.m_array;
+		//m_row = rhs.m_row;
+		//m_col = rhs.m_col;
+		copy(rhs);
+
 		/*
 		// New Array
 		m_array = new T* [ rhs.m_row ];
@@ -108,16 +109,16 @@ cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
 template<typename T>
 const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
-	//Exception
-	return cRow<T> ( GetRow(), index );
+	return cRow<T>(m_row, index);   
+	//return cRow<T> ( *this, index );
 }
 
 // Non-Const Subscript Operator Constructor
 template<typename T>
 cRow<T> cArray2D<T>::operator[] ( int index )
 {
-	// Exception
-	return cRow<T>( m_row, index );
+	return cRow<T> (m_row, index);
+	//return cRow<T> ( *this, index );
 }
 
 /**************************************************************
@@ -183,6 +184,7 @@ void cArray2D<T>::SetRow ( int row )
 	}
 	*/
 	m_row = row;
+	//m_array[row * m_col + row];
 }
 
 /**************************************************************
@@ -211,8 +213,9 @@ void cArray2D<T>::SetCol ( int column )
 		m_col = column;
 	}
 	*/
-	//Exception
 	m_col = column;
+	//m_array[m_col(column)];
+	//m_array[column * m_row + column];
 }
 
 /**************************************************************
