@@ -52,13 +52,15 @@ int  main()
 	************************************************************/
 	
 	cArray2D<int> data;
-	int rowCount = data.GetRow();
-	int colCount = data.GetCol();
+	int rowCount;
+	int colCount;
 
 	cout << "Enter the number of Rows: ";
 	cin >> rowCount;
+	data.SetRow(rowCount);
 	cout << "Enter the number of Columns: ";
 	cin >> colCount;
+	data.SetCol(colCount);
 	cout << endl;
 
 
