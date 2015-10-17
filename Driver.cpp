@@ -21,37 +21,44 @@
 using namespace std;
 
 #include <iostream>
-/*
-struct initList
-{
-	 *HEAD = NULL; };
-};
-*/
 template <typename T>
 struct Node
 {
+	listNode *HEAD;
+	listNode *CURR;
+};
+template <typename T>
+struct listNode
+{
 	T* data;
-
-	Node<T> *next;
-	//Node<T> *CURR = NULL;
+	listNode<T> *next;
 };
 
 template <typename T>
-struct linkedList
+listNode<T> *startNode(Node<T> HEAD) const
 {
-	Node<T> *HEAD = NULL;
-	Node<T> *CURR = NULL;
+	listNode<T> *temp = HEAD;
 
-};
-
-struct startNode *HEAD = NULL;
-template <typename T>
-Node<T> *createList(Node<T> data)
-{
-	Node<T> *node = (Node<T>*)malloc(sizeof(Node<T>));
+	return HEAD;
 	
+};
+
+template <typename T>
+listNode<T> *endNode(listNode<T> CURR) const
+{
+	listNode<T> *temp = CURR;
+
+	return CURR;
+}
+
+template <typename T>
+listNode<T> *createList(listNode<T> data)
+{
+	listNode<T> *node = (listNode<T>*)malloc(sizeof(listNode<T>));
+
 	if (node == NULL)
 	{
+		cout << "Create List is NULL";
 		return NULL;
 	}
 	else
@@ -60,22 +67,20 @@ Node<T> *createList(Node<T> data)
 		node->next = NULL;
 	}
 	
-	HEAD = CURR = node;
-
-	//HEAD = CURR = node;
+	node->HEAD = node->CURR = node;
 
 	return node;
 }	
 
 template <typename T>
-Node<T> *addNode(Node<T> data)
+listNode<T> *addNode(listNode<T> data)
 {
 	if (HEAD == NULL)
 	{
 		return (createList(data))
 	}
 
-	Node<T> *node = (Node<T>*)malloc(sizeof(Node<T>));
+	listNode<T> *node = (listNode<T>*)malloc(sizeof(listNode<T>));
 	if (node == NULL)
 	{
 		return NULL;
@@ -83,7 +88,7 @@ Node<T> *addNode(Node<T> data)
 	node->data = data;
 	node->next = NULL;
 
-	node->next = startNode->
+	node->next = 
 	HEAD = node;
 	
 	return node;
@@ -92,8 +97,8 @@ Node<T> *addNode(Node<T> data)
 template <typename T>
 void *removeNode() 
 {
-	Node<T> *CURR = HEAD;
-	Node<T> *ND = CURR;
+	listNode<T> *CURR = HEAD;
+	listNode<T> *ND = CURR;
 
 	CURR = CURR->next;
 
@@ -103,11 +108,11 @@ void *removeNode()
 template <typename T>
 void clearList()
 {
-	Node<T> *CURR = HEAD;
+	listNode<T> *CURR = HEAD;
 
 	while (curr->next != 0)
 	{
-		Node<T> *ND = curr;
+		listNode<T> *ND = curr;
 		curr = curr->next;
 		delete ND;
 	}
@@ -118,7 +123,7 @@ void clearList()
 template <typename T>
 void display() {
 
-	Node<T>* temp;
+	listNode<T>* temp;
 	temp = HEAD;
 
 	if (temp == NULL)
@@ -133,7 +138,7 @@ void display() {
 template <typename T>
 void printList()
 {
-	Node *node = HEAD;
+	listNode<T> *node = HEAD;
 
 	while (node != NULL)
 	{
