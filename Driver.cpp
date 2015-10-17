@@ -1,4 +1,9 @@
-/*
+/***********************************************************
+* Author:				Abdul Yahya
+* Created:				10/16/15
+* Updated:				10/16/15
+* H.W. Number:			Assignment 3
+* Filename:				Driver.cpp
 Create a linked list without using classes. You must provide the ability for the linked list nodes to store any data type.
 You must provide the following functions:
 
@@ -8,93 +13,96 @@ remove_node
 clear_list
 start_node - return the head
 end_node - return the tail
-*/
+************************************************************/
+
+
 //#define typename T
 using namespace std;
 
 #include <iostream>
-
+/*
+struct initList
+{
+	 *HEAD = NULL; };
+};
+*/
 template <typename T>
 struct Node
 {
 	T* data;
+
 	Node<T> *next;
+	//Node<T> *CURR = NULL;
 };
 
-/*
 template <typename T>
 struct linkedList
 {
-	Node<T> * HEAD = NULL;
-	Node<T> * Tail = NULL;
+	Node<T> *HEAD = NULL;
+	Node<T> *CURR = NULL;
 
-	data = new Node<T>;
-	data->next = NULL;
-
-	void addNode(Node<T> data);
-	//void addNode(Node<T>data, Node<T> *node);
-	void clearList();
 };
-void linkedList<T>::addNode(Node<T> data)
-{
-if (HEAD == NULL)
-{
-HEAD = new Node<T>();
-HEAD->data = data;
-HEAD->next = NULL;
-}
-else
-HEAD->addNode(data);
-}
 
-/*
+struct startNode *HEAD = NULL;
 template <typename T>
-void linkedList<T>::addNode(Node<T> data, Node<T> *node )
+Node<T> *createList(Node<T> data)
 {
-if (node->next)
-addNode(data,node->next);
-else
-{
-temp->next = new Node<T>();
-temp->next->data = data;
-temp->next->next = NULL;
-}
-}
-*
-*/
-template <typename T>
-Node<T> createList(Node<T> &data) 
-{
-	Node<T> * HEAD = NULL;
-	Node<T> * Tail = NULL;
-
-	data = new Node<T>;
-	data->next = NULL;
+	Node<T> *node = (Node<T>*)malloc(sizeof(Node<T>));
 	
-	return *data;
-}
+	if (node == NULL)
+	{
+		return NULL;
+	}
+	else
+	{
+		node->data = data;
+		node->next = NULL;
+	}
+	
+	HEAD = CURR = node;
+
+	//HEAD = CURR = node;
+
+	return node;
+}	
+
 template <typename T>
-void addNode(Node<T> data)
+Node<T> *addNode(Node<T> data)
 {
 	if (HEAD == NULL)
 	{
-		HEAD = new Node<T>();
-		HEAD->data = data;
-		HEAD->next = NULL;
+		return (createList(data))
 	}
-	else
-		HEAD->addNode(data);
+
+	Node<T> *node = (Node<T>*)malloc(sizeof(Node<T>));
+	if (node == NULL)
+	{
+		return NULL;
+	}
+	node->data = data;
+	node->next = NULL;
+
+	node->next = startNode->
+	HEAD = node;
+	
+	return node;
 }
 
-void removeNode() 
+template <typename T>
+void *removeNode() 
 {
+	Node<T> *CURR = HEAD;
+	Node<T> *ND = CURR;
 
+	CURR = CURR->next;
+
+	delete ND;
 }
 
 template <typename T>
 void clearList()
 {
-	Node<T> * curr = HEAD;
+	Node<T> *CURR = HEAD;
 
 	while (curr->next != 0)
 	{
@@ -105,7 +113,52 @@ void clearList()
 	delete curr;
 }
 
-main()
+/*
+template <typename T>
+void display() {
+
+	Node<T>* temp;
+	temp = HEAD;
+
+	if (temp == NULL)
+		cout << "No data inside !" << endl;
+
+	while (temp != NULL) {
+		cout << "Data : " << temp->data << endl;
+		temp = temp->next;
+	}
+}
+*/
+template <typename T>
+void printList()
 {
+	Node *node = HEAD;
+
+	while (node != NULL)
+	{
+		cout << node->data;
+		node = node->next;
+	}
+	cout << "\n -------Printing list End------- \n";
+}
+
+int main()
+{
+	Node<int>addNode(int);
+	int i = 0, ret = 0;
+	Node<int> *node = NULL;
+	
+	printList<int>();
+
+	for (i = 5; i<10; i++)
+		addNode(i);
+
+	printList<int>();
+
+	for (i = 4; i>0; i--)
+		addNode(i);
+
+	printList<int>();
+
 
 }
