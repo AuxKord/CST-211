@@ -1,61 +1,74 @@
-/***********************************************************
+/**********************************************************************
 * Author:				Abdul Yahya
-* Created:				10/04/15
-* Updated:				10/13/15
-* H.W. Number:			CST 211 Assignment 2
+* Created:				09/29/15
+* Updated:				10/17/15
 * Filename:				Exception.h
-************************************************************/
+************************************************************************/
 
 #ifndef Exception_H
 #define Exception_H
 
 #include <iostream>
-#include <string.h>
 
-#define ERR_BAD_MEM 1
-
-/************************************************************************
+/************************************************************************ 
 * Class: cException
+*
+* Purpose: Custom Dynamic Exceptions class used in all of
+*		   our assignments. Capbale of throwing any string.
 *
 * Constructors:
 *	cException ()
-*		Array, Rows, and Columns are initialized to 0.
-*	cException( char *msg )
-*		Overloading char pointer msg.
-*	cException	( const cException &c )
-*		Copy Constructor.
+*		Initializes char *message to Catch all Exception.
+*	Exception ( const char* msg )
+*		Grabs initialized char *message and sets it to equal 
+*		const char *msg.
+*	Exception ( const Exception &c )
+*		Copies message from above into c.message.
+* 
+* Operators:
+*	&operator= ( const cException &rhs )	
+*		Overloaded Assignment Operator takes in a reference
+*		to const cException &rhs or Right Hand Side.
+*	&operator<< ( ostream &stream, const cException &rhs )
+*		Overloaded Instertion Operator takes in a reference
+*		to const cException &rhs and uses stream to insert string
+*		into &rhs.
 *
 * Mutators:
-*	void SetMessage ( char *msg )
-*		This mutator copies the string msg from the char pointer msg.
+*	void SetMessage ( const char *msg )
+*		Sets the string msg from the char pointer msg.
 *
 * Methods:
-*	int GetMessage ()
+*	const char *GetMessage ()
 *		This method gets the Message values.
-*************************************************************************/
+************************************************************************/
 
 class cException
 {
 public:
 	cException  ();
-	cException  ( char *msg );
+	cException  ( char* msg);
 	cException  ( const cException &c );
 	~cException ();
 
-	cException &operator= ( const cException &rhs );
-
-	friend std::ostream &operator<< (std::ostream &stream, const cException &e) 
+	cException &operator= ( const cException &rhs )
 	{
-		return stream << e.m_msg;
+		SetMessage ( rhs.m_msg );
+		return *this;
 	}
 
-	const char* GetMessage () const;
+	friend std::ostream &operator<< ( std::ostream &stream, const cException &rhs )
+	{ 
+		stream << rhs.GetMessage ();
+		return stream;
+	}
+
+	const char *GetMessage () const; 
 
 	void SetMessage ( char *msg );
 
 private:
 	char *m_msg;
-
 };
 
 #endif

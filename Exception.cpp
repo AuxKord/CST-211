@@ -1,90 +1,85 @@
-/***********************************************************
+/**********************************************************************
 * Author:				Abdul Yahya
 * Created:				09/29/15
-* Updated:				10/13/15
-* H.W. Number:			CST 211 Assignment 1
-* Filename:				exception.cpp
-************************************************************/
-#define  _CRT_SECURE_NO_WARNINGS
+* Updated:				10/17/15
+* Filename:				Exception.cpp
+************************************************************************/
+#define _CRT_SECURE_NO_WARNINGS
 
-#include <iostream>
+#include <cstring>
+
 #include "Exception.h"
 
-// Default Constructor
-cException::cException () : m_msg ( 0 )
+//Default Constructor
+cException::cException () //: m_msg ( 0 )
 {
 }
 
-// Overloaded Exception::Exception () Constructor
-cException::cException ( char *msg ) : m_msg ( new char [ strlen ( msg ) + 1 ] )
+//Overloaded default Constructor
+cException::cException ( char *msg ) : m_msg ( 0 )
 {
+	SetMessage ( msg );
 }
 
-// Deep-Copy Copy Constructor
-cException::cException ( const cException &c ) : m_msg ( new char[ strlen ( c.m_msg ) +1 ] )
+// Copy Constructor
+cException::cException ( const cException &rhs ) : m_msg ( 0 )
 {
-	strcpy ( m_msg, c.m_msg );
+	SetMessage ( rhs.m_msg );
 }
 
-// Deconstructor
-cException::~cException()
+//Destructor
+cException::~cException ()
 {
-	// Verifying m_msg allocation
-	if (!m_msg)
+	if ( !m_msg )
 	{
+		SetMessage ("Destructor Error *m_msg allocation fail* ");
 	}
-
-	delete[] m_msg;
-	m_msg = 0;
-}
-
-// Overloaded Assignment Operator constructor 
-cException & cException::operator= ( const cException &rhs )
-{
-	// Checking to make sure there's no self assignment
-	if ( this != &rhs )
+	else
 	{
 		delete[] m_msg;
 		m_msg = 0;
-
-		// Creating the array
-		m_msg = new char [ strlen ( rhs.m_msg ) +1 ] ;
-
-		strcpy ( m_msg, rhs.m_msg );
 	}
-	return *this;
 }
 
 /**************************************************************
-* Function: const char * cException::getMessage()
+* Function: const char *cException::getMessage()
 *
-*		Purpose:  Get the Char array m_msg containing an array
-*				  of the Exception Message.
+*		Purpose:  Grabs and returns the private member variable
+*				  m_msg allowing access to it through this
+*				  function.
 *
 *		  Entry:  None.
 *
-*          Exit:  Returns the private member variable m_msg,
-*				  allowing SetMessage to copy the string msg
-*				  into it.
+*          Exit:  Returns the private member variable m_msg.
 ****************************************************************/
-const char * cException::GetMessage() const
+const char *cException::GetMessage () const
 {
 	return m_msg;
-}
+} 
 
 /**************************************************************
-* Function: void cException::setMessage ( char * msg )
+* Function: void cException::SetMessage ( const char *msg )
 *
-*		Purpose:  Set the various Exception Messages 
-*				  that are set to be thrown.
+*		Purpose:  Checks m_msg for pervious allocation,
+*				  If allocated, delete the allocation then
+*				  proceed. If not allocated then proceed.
+*				  Sets the various Exception Messages that 
+*				  are copied from *msg.
 *
-*		  Entry:  Char pointer msg.
+*		  Entry:  const char pointer msg.
 *
-*          Exit:  Returns the private member variable m_row,
-*				  allowing the Select function to access the
-*				  data.
+*          Exit:  None, void function.
 ****************************************************************/
-void cException::SetMessage ( char * msg )
+void cException::SetMessage ( char *msg )
 {
-	strcpy ( msg, m_msg );
+	if ( m_msg )
+	{
+		delete[] m_msg;
+		m_msg = 0;
+	}
+
+	m_msg = new char [ strlen ( msg ) ];
+	strcpy ( m_msg, msg );
 }
+
+
