@@ -1,175 +1,153 @@
-/***********************************************************
+/**********************************************************************
 * Author:				Abdul Yahya
-* Created:				10/04/15
-* Updated:				10/13/15
-* H.W. Number:			CST 211 Assignment 2
+* Created:				10/16/15
+* Updated:				10/16/15
+* H.W. Number:			Assignment 2
 * Filename:				Array2D.inc
-************************************************************/
+************************************************************************/
 
 #ifndef Array2D_i
 #define Array2D_i
 
+#include "Exception.h"
 #include "Array2D.h"
 
 // Default Constructor
 template <typename T>
-cArray2D<T>::cArray2D() : m_row ( 0 ), m_col ( 0 ), m_array ( new T* [ 0 ] )
-						  
+cArray2D<T>::cArray2D() : cArray2D( 0, 0 )	//m_array ( new T* [ 0 ] )
 {
 }
 
-// Overloaded Constructor
+// Overloaded Default Constructor
 template <typename T>
 cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 											 m_col   ( col ),
-											 m_array ( new T* [ row ] )
+											 m_array ( ( row * col ) ? new T* [ row ] : 0 )
 {
-	for ( int rowCount = 0; rowCount < row; ++rowCount )
-	{
-		m_array [ rowCount ] = new T [ col ];
-		for (int colCount = 0; colCount < col; ++colCount)
-		{
-			m_array[rowCount][colCount] = 0;
-		}
-	}
+	if ( ( row < 0 ) || ( col < 0 ) )
+		throw cException (" Overloaded Array Constructor Exception; Bad Bounds.");
+	
+	for ( int r = 0; r < row; ++r )
+			m_array [ r ] = new T [ col ];
 }
 
 // Copy Constructor
 template <typename T>
-cArray2D<T>::cArray2D ( const cArray2D &c ) : m_row   ( c.m_row ),
-										      m_col   ( c.m_col ),
-										      m_array ( new T* [ c.m_row ] )
+cArray2D<T>::cArray2D ( const cArray2D<T> &array ) : cArray2D ( array.m_row, array.m_col )
 {
-	for ( int rowCount = 0; rowCount < m_row; ++rowCount )
-	{
-		m_array[ rowCount ] = new T [ c.m_col ];
-		for ( int colCount = 0; colCount < m_col; ++colCount )
-		{
-			m_array [ rowCount ][ colCount ] = c.m_array [ rowCount ][ colCount ];
-		}
-	}
-	
-	//copy(c.m_array);
+	for ( int r= 0; r < m_row; r++ )
+		for ( int c = 0; c < m_col; c++ )
+			m_array [ r	][ c ] = array.m_array [ r ][ c ];
 }
 
 // Destructor
 template <typename T>
-cArray2D<T>::~cArray2D ()
-{	
+cArray2D<T>::~cArray2D()
+{
 	if ( !m_array )
-	{
-		//throw cException ( "Bad Memory Allocation" );
-		//throw ERR_BAD_MEM;
-	}
-		for (int dRow = 0; dRow < m_row; ++dRow)
-		{
-			delete[] m_array[dRow];
-		}
-		delete[] m_array;
+		throw cException ( "Destructor Exception; Array Allocation Fail." );
+
+	for ( int d = 0; d < m_row; ++d )
+			delete[] m_array [ d ];
+
+	delete[] m_array;
+	m_array = 0;
 }
 
-// Assignment Operator Overload Constructor
+// Overloaded Assignment Operator
 template <typename T>
-cArray2D<T> &cArray2D<T>::operator= ( const cArray2D &rhs )
+cArray2D<T> &cArray2D<T>::operator= ( const cArray2D<T> &array )
 {
-	if ( this != &rhs )
+	if ( this != &array )
 	{
-		for (int dRow = 0; dRow < m_row; ++dRow)
-		{
-			delete[] m_array [ dRow] ;
-		}
+		for ( int d = 0; d < m_row; ++d )
+			delete[] m_array [ d ];
+
 		delete[] m_array;
+		m_array = 0;
+		
+		m_row = array.m_row;
+		m_col = array.m_col;
+		
+		m_array = new T* [ m_row ];
+		for ( int r = 0; r < m_row; ++r )
+			m_array [ r ] = new T [ m_col ];
 
-		// Copying member variables over to rhs
-		//m_row = rhs.m_row;
-		//m_col = rhs.m_col;
-		copy(rhs);
-
-		/*
-		// New Array
-		m_array = new T* [ rhs.m_row ];
-
-		// Iterate through the array copying m_array values
-		// over to rhs.m_array
-		for ( int rowCount = 0; rowCount < m_row; ++rowCount )
-		{
-			m_array [ rowCount ] = new T [ rhs.m_col ];
-
-			for ( int colCount = 0; colCount < m_col; ++colCount )
-			{
-				m_array [ rowCount ][ colCount ] = rhs.m_array [ rowCount ][ colCount ];
-			}
-		}
-		*/
+		for ( int r = 0; r < m_row; ++r )
+			for ( int c = 0; c < m_col; ++c )
+				m_array [ r ][ c ] = array.Select ( r, c );
 	}
 	return *this;
 }
 
-// Const Subscript Operator Constructor
-template<typename T>
+// Overloaded Const Subscript Operator
+template <typename T>
 const cRow<T> cArray2D<T>::operator[] ( int index ) const
 {
-	return cRow<T>(m_row, index);   
-	//return cRow<T> ( *this, index );
+	ValidateIndex ( index );
+
+	const cRow<T> r ( *this, index );
+
+	return r;
 }
 
-// Non-Const Subscript Operator Constructor
-template<typename T>
+// Overloaded non-Const Subscript Operator
+template <typename T>
 cRow<T> cArray2D<T>::operator[] ( int index )
 {
-	return cRow<T> (m_row, index);
-	//return cRow<T> ( *this, index );
+	ValidateIndex ( index );
+
+	return cRow<T> ( *this, index );
 }
 
 /**************************************************************
-* Function: int cArray2D<T>::GetRow ()
+* int cArray2D<T>::GetRow ()
 *
-*		Purpose:  Reads the input data for each row value 
-*				  stored in m_row.
-*
+*		Purpose: Returns the Array's row values  stored in 
+*			     the private member variable m_row.
+*				 
 *		  Entry:  None.
 *
-*          Exit:  Returns the private member variable m_row, 
+*          Exit:  Returns the private member variable m_row,
 *				  allowing the Select function to access the
-*				  data. 
+*				  data.
 ****************************************************************/
-template <typename T>
-int cArray2D<T>::GetRow ()
+template<typename T>
+int cArray2D<T>::GetRow () const
 {
 	return m_row;
 }
 
 /**************************************************************
-* Function: int cArray2D<T>::GetCol ()
+* int cArray2D<T>::Getcol ()
 *
-*		Purpose:  Reads the input data for each column value
-*				  stored in m_col.
+*		Purpose: Returns the Array's column values  stored in
+*			     the private member variable m_col.
 *
 *		  Entry:  None.
 *
-*          Exit:  Returns the private member variable m_col, 
+*          Exit:  Returns the private member variable m_col,
 *				  allowing the Select function to access the
-*				  data. 			  
+*				  data.
 ****************************************************************/
-template <typename T>
-int cArray2D<T>::GetCol ()
+template<typename T>
+int cArray2D<T>::GetCol() const
 {
 	return m_col;
 }
 
 /**************************************************************
-* Function: void cArray2D<T>::SetRow ( int row )
+* void cArray2D<T>::SetRow ( int row )
 *
-*		Purpose:  Sets the row values of our template class
-*				  cArray2D.
+*		Purpose:  Resized the Array's row values without any 
+*				  loss of the Array's data integrity.
 *
-*		  Entry:  Takes in the value of integer row. Initializes
-*				  integer newRow with the value of int row only if 
+*		  Entry:  Takes in the value of int row. Initializes
+*				  integer newRow with the value of int row only if
 *				  the value of int row is not equal to what m_row
 *				  already has stored.
 *
-*          Exit:  Shallow copies int row over to the
-*				  private member variable m_row.
+*          Exit:  None; Void type.
 *
 * 	  Exception:  If the value of int row is Greater than
 *				  or equal to m_row throw a bad bounds exception.
@@ -177,69 +155,125 @@ int cArray2D<T>::GetCol ()
 template <typename T>
 void cArray2D<T>::SetRow ( int row )
 {
-	/*
-	for (int r = 0; r < row; ++r)
-	{
-		m_row = row;
-	}
-	*/
-	m_row = row;
-	//m_array[row * m_col + row];
+	//Resize(row, m_col);
 }
 
 /**************************************************************
-* Function: void cArray2D<T>::SetCol ( int column )
+* void cArray2D<T>::Setcol ( int col )
 *
-*		Purpose:  Sets the column values of our template class
-*				  cArray2D.
+*		Purpose:  Resized the Array's column values without any
+*				  loss of the Array's data integrity.
 *
-*		  Entry:  Takes in the value of integer column. 
-*				  Initializes integer newCol with the value 
-*				  of int column only if the value of int column
-*				  is not equal to what m_col already has stored.
+*		  Entry:  Takes in the value of int  col. Initializes
+*				  integer newRow with the value of int row only if
+*				  the value of int row is not equal to what m_col
+*				  already has stored.
 *
-*          Exit:  Shallow copies int column over to the
-*				  private member variable m_col.
+*          Exit:  None; Void type.
 *
-* 	  Exception:  If the value of int row is Greater than
-*				  or equal to m_row throw a bad bounds exception.
+* 	  Exception:  If the value of int col is Greater than
+*				  or equal to m_col throw a bad bounds exception.
 ****************************************************************/
 template <typename T>
-void cArray2D<T>::SetCol ( int column )
+void cArray2D<T>::SetCol ( int col )
 {
-	/*
-	for ( int c = 0; c < column; ++c )
-	{
-		m_col = column;
-	}
-	*/
-	m_col = column;
-	//m_array[m_col(column)];
-	//m_array[column * m_row + column];
+	//Resize(m_row, col);
 }
 
 /**************************************************************
-* Function: T & cArray2D<T>::Select ( int row, int column )
+* void cArray2D<T>::Resize ( int srow, int scol )
 *
-*		Purpose:  Allows Template Class cRow to access cArray2D's
-*				  Row and Column values. 
+*		Purpose:  
 *
-*		  Entry:  Integers row and column which is what makes 
-*				  up our multi-dimensional array.
+*		  Entry:  
 *
-*          Exit:  Returns our 2D array cArray2D's row and column
-*				  values.
+*          Exit:  None; Void type.
 *
-* 	  Exception:  If values of either integers row and column 
-*				  are greater than or equal to member variables 
-*				  m_row and m_col throw a Bad Bounds Exception.
+* 	  Exception:  
 ****************************************************************/
 template <typename T>
-T &cArray2D<T>::Select ( int row, int column )
+void cArray2D<T>::Resize ( int srow, int scol )
 {
+	//TODO Resize Method
+}
 
-	//return m_array[row][column];
-	return m_array [ row * m_col + column ];
+/**************************************************************
+* void cArray2D<T>::ValidateIndex ( int row, int col ) const
+*
+*		Purpose: Validates the Array's row and column values
+*				 by checking to make sure int row and int col
+*				 are both in bounds. Meaning that they are not
+*				 greater than or equal to their member variable
+*				 counter parts.
+*
+*		  Entry:  Takes in the value of int row and int col. 
+*				  It then compares the values of row and col to 
+*				  the values of m_row and m_col.
+*
+*          Exit:  None; Void type.
+*
+* 	  Exception:  If either of the comparisons above return true
+*				  a Bad Bounds Exception will be thrown,
+****************************************************************/
+template <typename T>
+void cArray2D<T>::ValidateIndex ( int row, int col ) const
+{
+	if ( ( ( row >= m_row ) || ( row < 0 ) ) || ( ( col >= m_col ) || ( col < 0 ) ) )
+		throw cException ( "Range is outside Bounds; Bad Bounds Exception." );
+}
+
+/**************************************************************
+* const T &cArray2D<T>::Select ( int row, int col ) const
+*
+*		Purpose: Validates the row and column values. Once
+*				 validated it will return a const reference
+*				 to the Array's row and column elements.
+*
+*		  Entry:  Takes in the values of int row and int col
+*				  and plugs them into the ValidateIndex function.
+*
+*          Exit:  If the values of row and col are valid,
+*				  it will return the const reference. If not
+*				  valid an exception will be thrown.
+*
+* 	  Exception:  If values of either int row and col are
+*				  greater than or equal to the member variables
+*				  m_row and m_col a Bad Bounds Exception will
+*				  be thrown.
+****************************************************************/
+template <typename T>
+const T &cArray2D<T>::Select ( int row, int col ) const
+{
+	ValidateIndex ( row, col );
+
+	return m_array [ row ][ col ];
+}
+
+/**************************************************************
+* T &cArray2D<T>::Select ( int row, int col ) 
+*
+*		Purpose: Validates the row and column values. Once
+*				 validated it will return a non-const reference
+*				 to the Array's row and column elements.
+*
+*		  Entry:  Takes in the values of int row and int col
+*				  and plugs them into the ValidateIndex function.
+*
+*          Exit:  If the values of row and col are valid,
+*				  it will return the non-const reference. If 
+*				  not valid an exception will be thrown.
+*
+* 	  Exception:  If values of either int row and col are
+*				  greater than or equal to the member variables
+*				  m_row and m_col a Bad Bounds Exception will
+*				  be thrown.
+****************************************************************/
+template <typename T>
+T &cArray2D<T>::Select ( int row, int col )
+{
+	ValidateIndex ( row, col );
+
+	return m_array [ row ][ col ];
 }
 
 #endif
