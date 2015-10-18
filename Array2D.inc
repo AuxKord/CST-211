@@ -35,8 +35,8 @@ cArray2D<T>::cArray2D ( int row, int col ) : m_row   ( row ),
 template <typename T>
 cArray2D<T>::cArray2D ( const cArray2D<T> &array ) : cArray2D ( array.m_row, array.m_col )
 {
-	for ( int r= 0; r < m_row; r++ )
-		for ( int c = 0; c < m_col; c++ )
+	for ( int r= 0; r < m_row; ++r )
+		for ( int c = 0; c < m_col; ++c )
 			m_array [ r	][ c ] = array.m_array [ r ][ c ];
 }
 
