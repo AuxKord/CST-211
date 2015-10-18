@@ -1,37 +1,53 @@
-/***********************************************************
+/**********************************************************************
 * Author:				Abdul Yahya
-* Created:				10/04/15
-* Updated:				10/10/15
-* H.W. Number:			CST 211 Assignment 2
+* Created:				10/16/15
+* Updated:				10/16/15
+* H.W. Number:			Assignment 2
 * Filename:				Row.h
-************************************************************/
+************************************************************************/
 
 #ifndef Row_H
 #define Row_H
 
-/************************************************************************
-* Class: cRow
+template <typename T> class cArray2D; // Forward Declaration
+
+/************************************************************
+* Class: cRow <T>
+*
+* Purpose:	Provides the template class cArray2D row object
+*			functionality. This template class does not store
+*			any data.
 *
 * Constructors:
-*	cRow ( cArray2D<T> &array, int row );
-*		Array and Row are initialized to 0.
-*************************************************************************/
-template <typename T> class cArray2D;
+*		cRow ( const Array2D<T> &array, const int row )
+*			Pointer to m_array from template class cArray2D 
+*			and int m_row are initialized with Const.
+*		cRow ( Array2D<T> &array, int row )
+*			Pointer to m_array from template class cArray2D
+*			and int m_row are initialized without Const.
+*
+* Operators:
+*		const T &operator[] ( int index ) const
+*			Const reference to the array m_array2D is returned.
+*		T& operator[] (int index)
+*			Non-Const reference to the array array m_array2D 
+*			is returned.
+***************************************************************/
 
 template <typename T>
 class cRow
 {
 public:
-	cRow ( cArray2D<T> &array, int row );	// Overloaded Default Constructor
+	cRow ( const cArray2D<T> &array, const int row );	// Overloaded Const Default Constructor
+	cRow ( cArray2D<T> &array, int row );				// Overloaded non-Const Default Constructor
 
-	const T &operator[] ( int column ) const;	// Subscript Operator Constructor
-	T		&operator[] ( int column );			// Const Subscript Operator Constructor
+	const T &operator[] ( int index ) const;		// Overloaded Const Subscript Operator
+	T		&operator[] ( int index );				// Overloaded non-Const Subscript Operator
 
 private:
-	cArray2D<T> &m_array2D;	// Reference to cArray2D's m_array Array
+	const cArray2D<T> *m_array2D;	//	Pointer to the array contained in the template class cArray2D
 
-	int	m_row;				// Member variable used to store row values
-
+	int m_row;		// Private member variable m_row
 };
 
 #include "Row.inc"
