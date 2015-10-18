@@ -20,11 +20,11 @@ template <typename T> class cArray2D; // Forward Declaration
 *
 * Constructors:
 *		cRow ( const Array2D<T> &array, const int row )
-*			Pointer to m_array from template class cArray2D 
-*			and int m_row are initialized with Const.
+*			Initializes m_array2D to Const &array and m_row to
+			Const int row.
 *		cRow ( Array2D<T> &array, int row )
-*			Pointer to m_array from template class cArray2D
-*			and int m_row are initialized without Const.
+*			Initializes m_array2D to non-Const &array and m_row 
+*			to non-Const int row.
 *
 * Operators:
 *		const T &operator[] ( int index ) const
