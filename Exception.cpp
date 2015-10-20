@@ -1,7 +1,7 @@
 /**********************************************************************
 * Author:				Abdul Yahya
 * Created:				09/29/15
-* Updated:				10/17/15
+* Updated:				10/20/15
 * Filename:				Exception.cpp
 ************************************************************************/
 #define _CRT_SECURE_NO_WARNINGS
@@ -10,35 +10,31 @@
 
 #include "Exception.h"
 
-//Default Constructor
-cException::cException () //: m_msg ( 0 )
+// Default Constructor
+cException::cException () : m_msg ( 0 )
 {
 }
 
-//Overloaded default Constructor
-cException::cException ( char *msg ) : m_msg ( 0 )
+// Single Argument Constructor
+cException::cException ( char *msg ) : m_msg ( msg )
 {
 	SetMessage ( msg );
 }
 
 // Copy Constructor
-cException::cException ( const cException &rhs ) : m_msg ( 0 )
+cException::cException ( const cException &rhs ) : m_msg ( rhs.m_msg )
 {
 	SetMessage ( rhs.m_msg );
 }
 
-//Destructor
+// Destructor
 cException::~cException ()
 {
 	if ( !m_msg )
-	{
-		SetMessage ("Destructor Error *m_msg allocation fail* ");
-	}
+		throw cException ("Destructor Error *m_msg allocation fail* ");
 	else
-	{
 		delete[] m_msg;
 		m_msg = 0;
-	}
 }
 
 /**************************************************************

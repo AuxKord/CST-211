@@ -1,7 +1,7 @@
 /**********************************************************************
 * Author:				Abdul Yahya
 * Created:				09/29/15
-* Updated:				10/17/15
+* Updated:				10/20/15
 * Filename:				Exception.h
 ************************************************************************/
 
@@ -18,12 +18,12 @@
 *
 * Constructors:
 *	cException ()
-*		Initializes char *message to Catch all Exception.
+*		Initializes m_msg to 0.
 *	Exception ( const char* msg )
 *		Grabs initialized char *message and sets it to equal 
 *		const char *msg.
-*	Exception ( const Exception &c )
-*		Copies message from above into c.message.
+*	Exception ( const Exception &rhs )
+*		Copies message from above into rhs.message.
 * 
 * Operators:
 *	&operator= ( const cException &rhs )	
@@ -46,29 +46,29 @@
 class cException
 {
 public:
-	cException  ();
-	cException  ( char* msg);
-	cException  ( const cException &c );
-	~cException ();
+	cException  ();							// Default Constructor
+	cException  ( char *msg);				// Single Argument Constructor
+	cException  ( const cException &rhs );	// Copy Constructor
+	~cException ();			// Destructor
 
-	cException &operator= ( const cException &rhs )
+	cException &operator= ( const cException &rhs ) // Overloaded Assignment Operator
 	{
 		SetMessage ( rhs.m_msg );
 		return *this;
 	}
 
-	friend std::ostream &operator<< ( std::ostream &stream, const cException &rhs )
+	friend std::ostream &operator<< ( std::ostream &stream, const cException &rhs )		// Insertion Stream Operator
 	{ 
 		stream << rhs.GetMessage ();
 		return stream;
 	}
 
-	const char *GetMessage () const; 
+	const char *GetMessage () const;	// Get Message Method
 
-	void SetMessage ( char *msg );
+	void SetMessage ( char *msg );		// Set Message Mutator
 
 private:
-	char *m_msg;
+	char *m_msg;	// Private Member Variable m_msg
 };
 
 #endif
