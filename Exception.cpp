@@ -30,9 +30,6 @@ cException::cException ( const cException &rhs ) : m_msg ( rhs.m_msg )
 // Destructor
 cException::~cException ()
 {
-	if ( !m_msg )
-		throw cException ("Destructor Error *m_msg allocation fail* ");
-	else
 		delete[] m_msg;
 		m_msg = 0;
 }
@@ -68,12 +65,6 @@ const char *cException::GetMessage () const
 ****************************************************************/
 void cException::SetMessage ( char *msg )
 {
-	if ( m_msg )
-	{
-		delete[] m_msg;
-		m_msg = 0;
-	}
-
 	m_msg = new char [ strlen ( msg ) ];
 	strcpy ( m_msg, msg );
 }

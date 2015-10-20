@@ -1,7 +1,7 @@
 /**********************************************************************
 * Author:				Abdul Yahya
 * Created:				10/16/15
-* Updated:				10/16/15
+* Updated:				10/20/15
 * H.W. Number:			Assignment 2
 * Filename:				Array2D.h
 ************************************************************************/
@@ -63,11 +63,11 @@ class cArray2D
 {
 public:
 	cArray2D  ();								// Default Constructor
-	cArray2D  ( int row, int col );				// OVerloaded Default Constructor
-	cArray2D  ( const cArray2D<T> &array );		// Copy Constructor
+	cArray2D  ( int row, int col = 0 );				// OVerloaded Default Constructor
+	cArray2D  ( const cArray2D<T> &rhs );		// Copy Constructor
 	~cArray2D ();								// Destructor
 
-	cArray2D &operator= ( const cArray2D &array );	// Overloaded Assignment Operator
+	cArray2D &operator= ( const cArray2D &rhs );	// Overloaded Assignment Operator
 
 	const cRow<T> operator[] ( int index ) const;	// Overloaded Const Subscript Operator
 	cRow<T>		  operator[] ( int index );			// Overloaded non-Const Subscript Operator
@@ -79,7 +79,6 @@ public:
 	void SetCol ( int col );	// Mutator resizes the Array's column values
 	
 	void Resize ( int srow, int scol ); // Mutator Resize function for the Setters above
-	//void SetSize(int nrows, int ncols);
 	const T &Select ( int row, int col ) const;		// Overloaded Const Array Accessor
 	T		&Select ( int row, int col );			// Overloaded non-Const Array Accessor
 
