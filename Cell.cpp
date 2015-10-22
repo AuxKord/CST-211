@@ -6,6 +6,8 @@
 * Filename:				Cell.cpp
 ************************************************************************/
 
+#include "Cell.h"
+
 // Default Constructor
 Cell::Cell () : m_mine     ( false ), m_click   ( false ), 
 				m_covered  ( true  ), m_flagged ( false ), 

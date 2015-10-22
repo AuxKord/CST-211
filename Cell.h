@@ -72,6 +72,6 @@ private:
 	bool m_covered;
 	bool m_flagged;
 	int m_acquaint;
-}
+};
 
 #endif
