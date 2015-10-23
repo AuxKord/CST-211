@@ -12,10 +12,17 @@
 /***************************************************************************************************
 *	Class: cCell
 *
+<<<<<<< HEAD
 *	Purpose:
 *		Keeps the board for minesweeper.
 *
 *	Manager Functions:
+=======
+*	Purpose: 
+*		Keeps the board for minesweeper.
+*
+*	Manager Functions: 
+>>>>>>> 4c8f2005a91609b728b443865e470d2bfaa7f4d9
 *		Cell ()
 *			Initiates Cell state to Covered with all states set to false.
 *
@@ -33,7 +40,11 @@
 *		void SetAcquaintances ( const int &Acquaintance )
 *			Changes adjacent Cell types to mines
 *
+<<<<<<< HEAD
 *	Methods:
+=======
+*	Methods: 
+>>>>>>> 4c8f2005a91609b728b443865e470d2bfaa7f4d9
 *	bool IsMine    () const
 *		Returns m_mine if Cell type is mine
 *	bool IsCovered () const
@@ -49,6 +60,7 @@
 class Cell
 {
 public:
+<<<<<<< HEAD
 	Cell(); 	// Default Constructor
 
 	bool IsMine() const;	// Gets Cell if it's type is Mine
@@ -69,13 +81,36 @@ public:
 	int GetAcquaintances() const;
 
 
+=======
+	Cell (); 	// Default Constructor
+	
+	bool IsMine    () const;	// Gets Cell if it's type is Mine
+	bool IsCovered () const;	// Gets Cell if it's state is Covered
+	bool IsFlagged () const;	// Gets Cell if it's state is Flagged
+	bool IsClicked () const;	// Gets Cell if it's state is clicked
+	
+	void SetMine    ();		// Sets Cell type to mine
+	void SetCovered ();		// Sets Cell State to covered
+	void SetUncover ();		// Sets Cell State to ucncovered
+	void SetFlag    ();		// Sets Cell state to flagged
+	void SetClick   ();		// Sets Cell state to clicked
+	
+	void SetAcquaintances ( const int &Acquaintance );	
+	int GetAcquaintances  () const;
+	
+	
+>>>>>>> 4c8f2005a91609b728b443865e470d2bfaa7f4d9
 private:
 	bool m_mine;
 	bool m_click;
 	bool m_covered;
+<<<<<<< HEAD
 	bool m_unCovered;
 	bool m_flagged;
 	bool m_empty;
+=======
+	bool m_flagged;
+>>>>>>> 4c8f2005a91609b728b443865e470d2bfaa7f4d9
 	int m_acquaint;
 };
 
