@@ -77,8 +77,7 @@ void Board::Uncover( int row, int col )
 		int row_max = row + 1 >= m_board.GetRow() ? m_board.GetRow() - 1 : row + 1;
 		int col_max = col + 1 >= m_board.GetCol() ? m_board.GetCol() - 1 : col + 1;
 		Cell &uc = m_board[ row ][ col ];
-		//DrawCell(row, col); //displays cell that was just uncovered
-		//m_board[row][col].m_status = Cell::SHOWN;
+		// Display Uncovered Cell
 		m_board[ row ][ col ].SetUncover();
 		m_covered--;
 
@@ -89,7 +88,7 @@ void Board::Uncover( int row, int col )
 				else if ( m_board[ i ][ j ].IsCovered() )
 				{
 					m_board[ i ][ j ].SetUncover();
-					//DrawCell(i, j);
+					// Display Cell
 					m_covered--;
 				}
 	}
