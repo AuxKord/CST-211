@@ -46,9 +46,13 @@
 *	const char *GetMessage ()
 *		This method gets the Message values.
 ************************************************************************/
+
 class cException
 {
+
 public:
+
+
 	cException();						// Default Constructor
 	cException(char* msg);				// Single Argument Constructor
 	cException(const cException &c);	// Copy Constructor
