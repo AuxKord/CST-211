@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B7FAAE7E-1ADC-4341-8C4D-D7D8DC252AFC}</ProjectGuid>
+    <ProjectGuid>{780AB8B7-3A6B-402B-B81A-DBD5689989E5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Sorts</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -146,18 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="Driver.h" />
-    <ClInclude Include="Exception.h" />
-    <ClInclude Include="Sorts.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Array.inc" />
-    <None Include="Sorts.inc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Driver.cpp" />
-    <ClCompile Include="Exception.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

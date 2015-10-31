@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 /***************************************************************************************************
 * Author:						Tanna McClure
@@ -752,15 +751,12 @@ void ShakerSort(T& ar, int length)
 
 
 
-=======
->>>>>>> 2cded19c80cc37122616c61ade2e6d46bb39caca
 /**********************************************************************
 * Author:				Abdul Yahya
 * Created:				10/16/15
 * Updated:				10/25/15
 * H.W. Number:			Lab 2
 * Filename:				Driver.cpp
-<<<<<<< HEAD
 #include "Driver.h"
 
 using std::cout;
@@ -808,11 +804,3 @@ void SortingDef<T>::BruteForceBubbleSort()
 }
 
 ************************************************************************/
-=======
-************************************************************************/
-
-int main()
-{
-	return 0;
-}
->>>>>>> 2cded19c80cc37122616c61ade2e6d46bb39caca
