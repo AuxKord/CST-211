@@ -8,51 +8,108 @@
 #ifndef Array_i
 #define Array_i
 
+/**************************************************************
+* Array<T>::Array() 
+*												*TODO*
+*		Purpose:  Default Constructor. 
+****************************************************************/
 template <typename T>
-Array<T>::Array() : m_length(0), m_start_index(0), m_array(new T[ 0 ])
+Array<T>::Array() : m_length	   ( 0 ), 
+					m_start_index  ( 0 ), 
+				    m_array        ( nullptr )
 {
 }
 
+/**************************************************************
+* Array<T>::Array()
+*												*TODO*
+*		Purpose:  Default Constructor.
+****************************************************************/
 template <typename T>
-Array<T>::Array(int length, int start_index) : m_length(length), m_start_index(start_index)//, m_array(new T [length])
+Array<T>::Array(int length, int start_index) : m_length		 ( length ), 
+											   m_start_index ( start_index ), 
+											   m_array		 ( nullptr )
 {
-	if (length <= 0)
-		throw cException("Tried to create row with invalid length!");
+	if (length < 0)
+		throw cException("Error: Cannot create an Array of Negative Rows.");
 	m_array = new T[length];
 }
 
+/**************************************************************
+* Array<T>::Array()
+*												*TODO*
+*		Purpose:  Default Constructor.
+****************************************************************/
 template <typename T>
-Array<T>::Array(const Array<T>& c) : m_length(c.m_length), m_start_index(c.m_start_index), m_array(c.m_array)
+Array<T>::Array(const Array<T> &c) : m_length	   ( c.m_length) , 
+									 m_start_index ( c.m_start_index ), 
+									 m_array	   ( nullptr )
 {
-	m_array = new T[c.m_length];
+	m_array = new T[m_length];
+
 	for (int i = 0; i < m_length; ++i)
 		m_array[i] = c.m_array[i];
 }
 
+/**************************************************************
+* Array<T>::Array()
+*												*TODO*
+*		Purpose:  Default Constructor.
+****************************************************************/
 template <typename T>
 Array<T>::~Array()
 {
 	if (m_array)
 		delete[] m_array;
-	m_array = 0;
+
+	m_array = nullptr;
+	m_length = m_start_index = 0;
 }
 
+/**************************************************************
+* Array<T>::Array()
+*												*TODO*
+*		Purpose:  Default Constructor.
+****************************************************************/
 template <typename T>
-const Array<T>& Array<T>::operator=(const Array<T>& rhs)
+const Array<T>& Array<T>::operator=(const Array<T> &rhs)
 {
 	if (this != rhs)
 	{ 
+		m_length = rhs.m_length;
+		m_start_index = rhs.m_start_index;
+	
 		if (m_array)
 			delete[] m_array;
 
-		m_array = new T[rhs.m_length];
-		m_length = rhs.m_length;
-		m_start_index = rhs.m_start_index;
+		m_array = new T[m_length];
 
-		for (int i = 0; i < rhs.m_length; ++i)
+		for (int i = 0; i < m_length; ++i)
 			m_array[i] = rhs.m_array[i];
 	}
 	return *this;
+}
+
+/**************************************************************
+* Array<T>::Array()
+*												*TODO*
+*		Purpose:  Default Constructor.
+****************************************************************/
+template<typename T>
+int Array<T>::GetStartIndex() const
+{
+	return m_start_index;
+}
+
+/**************************************************************
+* Array<T>::Array()
+*												*TODO*
+*		Purpose:  Default Constructor.
+****************************************************************/
+template<typename T>
+int Array<T>::GetLength() const
+{
+	return m_length;
 }
 
 /*****************************************************************
@@ -64,12 +121,10 @@ const Array<T>& Array<T>::operator=(const Array<T>& rhs)
 * also performs range checking
 *****************************************************************/
 template <typename T>
-T& Array<T>::operator[](int index)
+T &Array<T>::operator[](int index)
 {
-	if (index < m_start_index)
-		throw cException("Index below range!");
-	else if (index >= m_start_index + m_length)
-		throw cException("Index above range!");
+	if ( (index < m_start_index) || (index > m_start_index + m_length - 1) )
+		throw cException("Error: Array is Out of Bounds!");
 
 	return m_array[index - m_start_index];
 }
@@ -83,12 +138,10 @@ T& Array<T>::operator[](int index)
 * also performs range checking
 *****************************************************************/
 template <typename T>
-const T& Array<T>::operator[] (int index) const
+const T &Array<T>::operator[] (int index) const
 {
-	if (index < m_start_index)
-		throw cException("Index is too low.");
-	else if (index >= m_start_index + m_length - 1)
-		throw cException("Index is too high.");
+	if ( (index < m_start_index) || (index > m_start_index + m_length - 1) )
+		throw cException("Error: Array is Out of Bounds!");
 
 	return m_array[index - m_start_index];
 }
@@ -100,17 +153,25 @@ const T& Array<T>::operator[] (int index) const
 *		(preserves as many elements as possible)
 *****************************************************************/
 template <typename T>
-void Array<T>::setLength(int length)
+void Array<T>::SetLength(int length)
 {
-	T *pArray = m_array;
-	int pLength = m_length;
-	m_array = new T[length];
-	m_length = length;
-	for (int i = 0; i < min(oldLen, length); ++i)
+	T *tempA = m_array;
+
+	if !(length = 0)
 	{
-		m_array[i] = old[i];
+		m_array = new T[length];
+		int Min(length < m_length ? length : m_length);
+		for (int i = 0; i < Min; ++i)
+			m_array[i] = tempA[i];
 	}
-	delete[] pArray;
+	else if (length <= 0)
+		throw cException("Error: Out of Bounds.");
+	else
+		m_array = nullptr;
+
+	delete[] tempA;
+	m_length = length;
 }
+
 
 #endif
