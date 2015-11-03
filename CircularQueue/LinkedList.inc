@@ -13,19 +13,19 @@
 #include "LinkedList.h"
 
 /**************************************************************
-* cLinkedList<T>::cLinkedList() 
+* LinkedList<T>::LinkedList() 
 *
 *		Purpose: Default Constructor. Calls Clear() to set
 *				 m_head/tail to null.
 ****************************************************************/
 template <typename T>
-cLinkedList<T>::cLinkedList()
+LinkedList<T>::LinkedList()
 {
 	Clear();
 }
 
 /**************************************************************
-* cLinkedList<T>::cLinkedList(const cLinkedList &rhs)
+* LinkedList<T>::LinkedList(const LinkedList &rhs)
 *
 *		Purpose: Copy Constructor. Initializes m_data with a
 *				 copy of itself, c.m_data and calls Clear().
@@ -33,7 +33,7 @@ cLinkedList<T>::cLinkedList()
 *		MAKE THIS A DEEP COPY
 ****************************************************************/
 template<typename T>
-cLinkedList<T>::cLinkedList (const cLinkedList &c) : m_head ( c.m_head ), m_tail ( c.m_tail )
+LinkedList<T>::LinkedList (const LinkedList &c) : m_head ( c.m_head ), m_tail ( c.m_tail )
 {
 	Clear();
 	*this = c;
@@ -41,14 +41,14 @@ cLinkedList<T>::cLinkedList (const cLinkedList &c) : m_head ( c.m_head ), m_tail
 
 // Destructor
 template<typename T>
-cLinkedList<T>::~cLinkedList()
+LinkedList<T>::~LinkedList()
 {
 	Purge();
 	m_head = nullptr; m_tail = nullptr;
 }
 
 /**************************************************************
-* cLinkedList<T> &cLinkedList<T>::operator= (const cLinkedList<T> &rhs)
+* LinkedList<T> &LinkedList<T>::operator= (const LinkedList<T> &rhs)
 *
 *		Purpose: Assignment Operator. Checks for self
 *				 assignment then purges nodes. 
@@ -56,7 +56,7 @@ cLinkedList<T>::~cLinkedList()
 *		Double Check
 ****************************************************************/
 template<typename T>
-cLinkedList<T> &cLinkedList<T>::operator= (const cLinkedList<T> &rhs)
+LinkedList<T> &LinkedList<T>::operator= (const LinkedList<T> &rhs)
 {
 	if (this != &rhs)
 	{
@@ -72,7 +72,7 @@ cLinkedList<T> &cLinkedList<T>::operator= (const cLinkedList<T> &rhs)
 }
 
 /**************************************************************
-* bool cLinkedList<T>::isEmpty ()
+* bool LinkedList<T>::isEmpty ()
 *
 *		Purpose: Checks to see if LinkedList is empty and
 *				 returns true if it is.
@@ -80,13 +80,13 @@ cLinkedList<T> &cLinkedList<T>::operator= (const cLinkedList<T> &rhs)
 *          Exit: If LinkedList is empty it will return true.
 ****************************************************************/
 template<typename T>
-bool cLinkedList<T>::isEmpty()
+bool LinkedList<T>::isEmpty()
 {
 	return (m_head == nullptr);
 }
 
 /**************************************************************
-* const cNode<T> &cLinkedList<T>::First () const
+* const cNode<T> &LinkedList<T>::First () const
 *
 *		Purpose: Find the const variable m_head and returns it.
 *		  Entry: None.
@@ -94,13 +94,13 @@ bool cLinkedList<T>::isEmpty()
 *				 m_head.
 ****************************************************************/
 template<typename T>
-const cNode<T> &cLinkedList<T>::First() const
+const cNode<T> &LinkedList<T>::First() const
 {
 	return *m_head;
 }
 
 /**************************************************************
-* const cNode<T> &cLinkedList<T>::Last () const
+* const cNode<T> &LinkedList<T>::Last () const
 *
 *		Purpose: Find the const variable m_tail and returns it.
 *		  Entry: None.
@@ -108,13 +108,13 @@ const cNode<T> &cLinkedList<T>::First() const
 *				 m_tail.
 ****************************************************************/
 template<typename T>
-const cNode<T> &cLinkedList<T>::Last() const
+const cNode<T> &LinkedList<T>::Last() const
 {
 	return *m_tail;
 }
 
 /**************************************************************
-* const cIterator<T> cLinkedList<T>::Begin() const
+* const cIterator<T> LinkedList<T>::Begin() const
 *
 *		Purpose: Return the const head or start of the iterator.
 *		  Entry: None.
@@ -122,13 +122,13 @@ const cNode<T> &cLinkedList<T>::Last() const
 ****************************************************************/
 template<typename T>
 //const
-cIterator<T> cLinkedList<T>::Begin() const
+cIterator<T> LinkedList<T>::Begin() const
 {
 	return cIterator<T>(m_head);
 }
 
 /**************************************************************
-* const cIterator<T> cLinkedList<T>::End() const
+* const cIterator<T> LinkedList<T>::End() const
 *
 *		Purpose: Return the const tail or end of the iterator.
 *		  Entry: None.
@@ -136,20 +136,20 @@ cIterator<T> cLinkedList<T>::Begin() const
 ****************************************************************/
 template<typename T>
 //const 
-cIterator<T> cLinkedList<T>::End() const
+cIterator<T> LinkedList<T>::End() const
 {
 	return cIterator<T>(m_tail);
 }
 
 /**************************************************************
-* void cLinkedList<T>::Purge ()
+* void LinkedList<T>::Purge ()
 *
 *		Purpose: Clears the LinkedList of all nodes.
 *		  Entry: None.
 *          Exit: None; Void Function.
 ****************************************************************/
 template<typename T>
-void cLinkedList<T>::Purge()
+void LinkedList<T>::Purge()
 {
 	if (!isEmpty())
 	{
@@ -167,7 +167,7 @@ void cLinkedList<T>::Purge()
 }
 
 /**************************************************************
-* void cLinkedList<T>::Prepend ( T *prp )
+* void LinkedList<T>::Prepend ( T *prp )
 *
 *		Purpose: Add a node to the beginning of the LinkedList.
 *		  Entry: Takes in pointer variable prp of type T.
@@ -177,7 +177,7 @@ void cLinkedList<T>::Purge()
 *		Double Check
 ****************************************************************/
 template<typename T>
-void cLinkedList<T>::Prepend(const T *prp)
+void LinkedList<T>::Prepend(const T *prp)
 {
 	cNode<T> *prpd = new cNode<T>(*prp);
 	if (!isEmpty())
@@ -191,7 +191,7 @@ void cLinkedList<T>::Prepend(const T *prp)
 }
 
 /**************************************************************
-* void cLinkedList<T>::Append ( T *apn )
+* void LinkedList<T>::Append ( T *apn )
 *
 *		Purpose: Add a node to end of the LinkedList.
 *		  Entry: Takes in pointer variable apn of type T.
@@ -201,7 +201,7 @@ void cLinkedList<T>::Prepend(const T *prp)
 *			Double Check
 ****************************************************************/
 template<typename T>
-void cLinkedList<T>::Append(const T *apn)
+void LinkedList<T>::Append(const T *apn)
 {
 	cNode<T> *apnd = new cNode<T>(*apn);
 	if (!isEmpty())
@@ -215,7 +215,7 @@ void cLinkedList<T>::Append(const T *apn)
 }
 
 /**************************************************************
-* cNode<T> &cLinkedList<T>::Extract ( T &eValue )
+* cNode<T> &LinkedList<T>::Extract ( T &eValue )
 *
 *		Purpose: Extract the specified node and returns a copy
 *				 of that node.
@@ -224,7 +224,7 @@ void cLinkedList<T>::Append(const T *apn)
 *          Exit: Returns CURR, the specified node
 ****************************************************************/
 template<typename T>
-cNode<T>& cLinkedList<T>::Extract(T eValue)
+cNode<T>& LinkedList<T>::Extract(T eValue)
 {
 	cNode<T> *CURR = m_head;
 
@@ -277,7 +277,7 @@ cNode<T>& cLinkedList<T>::Extract(T eValue)
 *  Exit:       New node is created after the node with the specified m_data value
 *********************************************************************************************************/
 template<typename T>
-void cLinkedList<T>::InsertAfter(T insA, T *insANew)
+void LinkedList<T>::InsertAfter(T insA, T *insANew)
 {
 	cNode<T> *CURR = m_head;
 	for (cIterator<T> i = this->Begin(); i != this->End(); ++i)
@@ -316,7 +316,7 @@ void cLinkedList<T>::InsertAfter(T insA, T *insANew)
 *  Exit:       New node is created before the node with the specified m_data value
 *********************************************************************************************************/
 template<typename T>
-void cLinkedList<T>::InsertBefore(T insB, T *insBNew)
+void LinkedList<T>::InsertBefore(T insB, T *insBNew)
 {
 	cNode<T> *CURR = m_head;
 	for (cIterator<T> i = this->Begin(); i != this->End(); ++i)
@@ -352,7 +352,7 @@ void cLinkedList<T>::InsertBefore(T insB, T *insBNew)
 *          Exit: None; Void function.
 ****************************************************************/
 template<typename T>
-void cLinkedList<T>::Clear()
+void LinkedList<T>::Clear()
 {
 	m_head = nullptr;
 	m_tail = nullptr;

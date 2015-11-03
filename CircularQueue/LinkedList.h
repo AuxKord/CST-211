@@ -58,14 +58,14 @@
 ************************************************************************/
 
 template <typename T>
-class cLinkedList
+class LinkedList
 {
 public:
-	cLinkedList();								// Default Constructor
-	cLinkedList (const cLinkedList<T> &c);		// Copy Constructor
-	~cLinkedList();								// Destructor
+	LinkedList();								// Default Constructor
+	LinkedList (const LinkedList<T> &c);		// Copy Constructor
+	~LinkedList();								// Destructor
 
-	cLinkedList &operator= (const cLinkedList<T> &rhs);	// Overloaded Assignment Operator
+	LinkedList &operator= (const LinkedList<T> &rhs);	// Overloaded Assignment Operator
 
 	bool isEmpty();	// Returns true if LinkedList is empty
 
