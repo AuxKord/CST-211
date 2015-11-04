@@ -13,26 +13,34 @@
 						**Circular Queue***	
 ************************************************************************/
 
-
+/**************************************************************
+* CircularQueue<CQ>::CircularQueue(...)
+*		Purpose: Default Constructor. Initializes m_node
+*				 to 0.
+****************************************************************/
 template <typename CQ>
 CircularQueue<CQ>::CircularQueue(int CQCap) : mCircularQueue (CQCap), mCQCap (CQCap), mCQSize (0)
 {
 
 }
 
-template<typename CQ>
+/**************************************************************
+* CircularQueue<CQ>::CircularQueue(...) 
+*		Purpose: Copy Constructor. Initializes m_node
+*				 to 0.
+****************************************************************/
+template <typename CQ>
 CircularQueue<CQ>::CircularQueue(const CircularQueue & c) : mCircularQueue (c.mCircularQueue), mCQCap (c.mCQCap),
 															mCQSize (c.mCQSize)
 {
 }
 
-template<typename CQ>
-CircularQueue<CQ>::~CircularQueue()
-{
-}
-
-template<typename CQ>
-CircularQueue<CQ> & CircularQueue<CQ>::operator=(const CircularQueue<CQ> &rhs)
+/**************************************************************
+* CircularQueue<CQ> &CircularQueue<CQ>::operator=(...)
+*		Purpose: Assignment Operator.
+****************************************************************/
+template <typename CQ>
+CircularQueue<CQ> &CircularQueue<CQ>::operator=(const CircularQueue<CQ> &rhs)
 {
 		mCQSize		   = rhs.mCQSize;
 		mCQCap		   = rhs.mCQCap;
@@ -40,7 +48,11 @@ CircularQueue<CQ> & CircularQueue<CQ>::operator=(const CircularQueue<CQ> &rhs)
 	return *this;
 }
 
-template<typename CQ>
+/**************************************************************
+* void CircularQueue<CQ>::Enqueue(CQ data)
+*		Purpose: Enqueue Function. 
+****************************************************************/
+template <typename CQ>
 void CircularQueue<CQ>::Enqueue(CQ data)
 {
 	if (isFull())
@@ -50,7 +62,11 @@ void CircularQueue<CQ>::Enqueue(CQ data)
 	++mCQSize;
 }
 
-template<typename CQ>
+/**************************************************************
+* CQ CircularQueue<CQ>::Dequeue()
+*		Purpose: Dequeue Function.
+****************************************************************/
+template <typename CQ>
 CQ CircularQueue<CQ>::Dequeue()
 {
 	if (isEmpty())
@@ -64,8 +80,12 @@ CQ CircularQueue<CQ>::Dequeue()
 	}
 }
 
-template<typename CQ>
-CQ & CircularQueue<CQ>::Front()
+/**************************************************************
+* CQ &CircularQueue<CQ>::Front()
+*		Purpose: Front Function.
+****************************************************************/
+template <typename CQ>
+CQ &CircularQueue<CQ>::Front()
 {
 	if (!isEmpty())
 		return mCircularQueue[0];
@@ -73,46 +93,34 @@ CQ & CircularQueue<CQ>::Front()
 		throw cException("Front - Error: Circular Queue is Empty!");
 }
 
-template<typename CQ>
-int CircularQueue<CQ>::Size()
-{
-	return mCQSize;
-}
-
-template<typename CQ>
-bool CircularQueue<CQ>::isEmpty()
-{
-	if (mCQSize == 0)
-		return true;
-}
-
-template<typename CQ>
-bool CircularQueue<CQ>::isFull()
-{
-	if (mCQSize == mCQCap)
-		return true;
-}
-
 
 /**********************************************************************
 						**Linked Queue***
 ************************************************************************/
+
+/**************************************************************
+* LinkedQueue<LQ>::LinkedQueue(...) 
+*		Purpose: Default Constructor.
+****************************************************************/
 template <typename LQ>
 LinkedQueue<LQ>::LinkedQueue(int LQCap) : mLinkedQueue (LQCap), mLQCap (LQCap), mLQSize (0)
 {
 }
 
+/**************************************************************
+* LinkedQueue<LQ>::LinkedQueue(...)
+*		Purpose: Copy Constructor.
+****************************************************************/
 template<typename LQ>
 LinkedQueue<LQ>::LinkedQueue(const LinkedQueue<LQ> &c) : mLinkedQueue (c.mLinkedQueue), mLQCap (c.mLQCap), 
 														 mLQSize (c.mLQSize)
 {
 }
 
-template<typename LQ>
-LinkedQueue<LQ>::~LinkedQueue()
-{
-}
-
+/**************************************************************
+* LinkedQueue<LQ> &LinkedQueue<LQ>::operator=(...)
+*		Purpose: Assignment Operator.
+****************************************************************/
 template<typename LQ>
 LinkedQueue<LQ> &LinkedQueue<LQ>::operator=(const LinkedQueue<LQ> &rhs)
 {
@@ -122,16 +130,24 @@ LinkedQueue<LQ> &LinkedQueue<LQ>::operator=(const LinkedQueue<LQ> &rhs)
 	return *this;
 }
 
+/**************************************************************
+* void LinkedQueue<LQ>::Enqueue(...)
+*		Purpose: Enqueue Function.
+****************************************************************/
 template<typename LQ>
 void LinkedQueue<LQ>::Enqueue(LQ data)
 {
 	if (isFull())
 		throw cException("Enqueue - Error: Linked Queue is Full!");
 	else
-		mLinkedQueue.Append(data);
+		mLinkedQueue.Append(&data);
 	++mLQSize;
 }
 
+/**************************************************************
+* LQ LinkedQueue<LQ>::Dequeue()
+*		Purpose: Dequeue Function.
+****************************************************************/
 template<typename LQ>
 LQ LinkedQueue<LQ>::Dequeue()
 {
@@ -142,31 +158,6 @@ LQ LinkedQueue<LQ>::Dequeue()
 		--mLQSize;
 		return mLinkedQueue.Extract(*(mLinkedQueue.Begin())).GetData();
 	}
-}
-
-template<typename LQ>
-LQ &LinkedQueue<LQ>::Front()
-{
-	return *mLinkedQueue.Begin();
-}
-
-template<typename LQ>
-int LinkedQueue<LQ>::Size()
-{
-	return mLQSize;
-}
-
-template<typename LQ>
-bool LinkedQueue<LQ>::isEmpty()
-{
-	return mLinkedQueue == 0;
-}
-
-template<typename LQ>
-bool LinkedQueue<LQ>::isFull()
-{
-	if (mLQSize == mLQCap)
-		return true;
 }
 
 

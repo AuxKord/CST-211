@@ -33,7 +33,7 @@ class CircularQueue
 public:
 	CircularQueue (int CQCap);
 	CircularQueue (const CircularQueue<CQ> &c);
-	~CircularQueue();
+	~CircularQueue() {};
 
 	CircularQueue &operator= (const CircularQueue<CQ> &rhs);
 
@@ -41,10 +41,10 @@ public:
 	CQ	 Dequeue();
 
 	CQ &Front();
-	int Size();
+	int Size() { return mCQSize; }
 
-	bool isEmpty();
-	bool isFull();
+	bool isEmpty() { return mCQSize == 0; }
+	bool isFull() { eturn mCQSize == mCQCap; }
 
 private:
 	Array<CQ> mCircularQueue;

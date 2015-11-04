@@ -17,18 +17,18 @@ class LinkedQueue
 public:
 	LinkedQueue (int LQCap);
 	LinkedQueue (const LinkedQueue<LQ> &c);
-	~LinkedQueue();
+	~LinkedQueue() {};
 
 	LinkedQueue &operator= (const LinkedQueue<LQ> &rhs);
 
 	void Enqueue(LQ data);
 	LQ	 Dequeue();
 
-	LQ &Front();
-	int Size();
+	LQ &Front() { return *mLinkedQueue.Begin(); }
+	int Size() { return mLQSize; }
 
-	bool isEmpty();
-	bool isFull();
+	bool isEmpty() { return mLQSize == 0; }
+	bool isFull() { return mLQSize == mLQCap; }
 
 private:
 	LinkedList<LQ> mLinkedQueue;
