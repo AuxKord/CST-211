@@ -13,33 +13,33 @@
 #include "Node.h"
 
 /************************************************************************
-* Class: cLinkedList
+* Class: LinkedList
 *
 * Purpose:
 *
 * Constructors:
-*	cLinkedList()
+*	LinkedList()
 *		Initializes m_tail and m_head to null values
-*	cLinkedList( const cLinkedList &rhs )
+*	LinkedList( const LinkedList &rhs )
 *		Copies LinkedList over to rhs
-*	~cLinkedList()
+*	~LinkedList()
 *		De-allocates the Array and sets it to zero.
 *
 * Operators:
-*	cLinkedList &operator= ( const cLinkedList &rhs )
+*	LinkedList &operator= ( const LinkedList &rhs )
 *		Creates a copy of the LinkedList and copies it over to
 *		the const rhs
 *
 * Methods:
 *	bool isEmpty()
 *		Checks LinkedList to see if it's empty or not
-*	const cNode<T> &First () const
+*	const Node<T> &First () const
 *		Returns const m_head if it's not empty
-*	const cNode<T> &Last  () const
+*	const Node<T> &Last  () const
 *		Returns const m_tail if it's not empty
-*	cIterator<T> Begin () const
+*	Iterator<T> Begin () const
 *		Returnts const iterator's head
-*	cIterator<T> End   () const
+*	Iterator<T> End   () const
 *		Returns const iterator's tail
 *
 * Mutators:
@@ -49,7 +49,7 @@
 *		Adds node at the beginning of the LinkedList
 *	void Append  ( T* aAdd )
 *		Adds node to the end of the LinkedList
-*	cNode<T> &Extract ( T eValue );
+*	Node<T> &Extract ( T eValue );
 *		Extracts specified node and drops a copy of it from the LinkedList
 *	void InsertAfter  ( T aValue, T* aNode )
 *		Adds node after extracted node
@@ -69,26 +69,26 @@ public:
 
 	bool isEmpty();	// Returns true if LinkedList is empty
 
-	const cNode<T> &First() const;		// Grabs cNode's const head
-	const cNode<T> &Last () const;		// Grabs cNode's const tail
+	const Node<T> &First() const;		// Grabs Node's const head
+	const Node<T> &Last () const;		// Grabs Node's const tail
 
-	cIterator<T> Begin() const;	// Grabs the const iterators start
-	cIterator<T> End  () const;  // Grabs the const iterators end
+	Iterator<T> Begin() const;	// Grabs the const iterators start
+	Iterator<T> End  () const;  // Grabs the const iterators end
 	
 
 	void Purge();			// Clears LinkedList of all nodes
 	void Prepend(const T *prp);	// Adds nodes at the front
 	void Append (const T *apn);	// Adds nodes at the end
 
-	cNode<T> &Extract (T eValue);	// Extracts specified cNode
+	Node<T> &Extract (T eValue);	// Extracts specified Node
 	void InsertAfter  (T insA, T *insANew);	// Adds nodes after extracted node
 	void InsertBefore (T insB, T *insBNew);	// Adds nodes before extracted node
 
 private:
 	void Clear();		  // Clears m_head and m_tail nodes
 					
-	cNode<T> *m_tail;	// Pointer to private member variable m_tail
-	cNode<T> *m_head;   // Pointer to private member variable m_head
+	Node<T> *m_tail;	// Pointer to private member variable m_tail
+	Node<T> *m_head;   // Pointer to private member variable m_head
 };
 
 #include "LinkedList.inc"

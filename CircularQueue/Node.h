@@ -10,76 +10,76 @@
 #define Node_H
 
 /************************************************************************
-* Class: cNode
+* Class: Node
 *
 * Purpose:
 *
 * Constructors:
-*	cNode  ( T data )
+*	Node  ( T data )
 *		Initializes m_data with data
-*	cNode  ( const cNode<T> &c )
+*	Node  ( const Node<T> &c )
 *		Copies m_data into c.m_data
-*	~cNode ();
+*	~Node ();
 *		Calls Clear()
 *
 * Operators:
-*	cNode &operator= ( const cNode<T> &rhs )
+*	Node &operator= ( const Node<T> &rhs )
 *		Takes in rhs reference and assigns m_data to it
 *
 * Methods:
 *	T &GetData ()
 *		Gets a reference to data values
-*	cNode<T> *GetPrev ()
+*	Node<T> *GetPrev ()
 *		 Gets a pointer to prev values
-*	cNode<T> *GetNext ()
+*	Node<T> *GetNext ()
 *		Gets a pointer to next values
 *	const T &GetData () const
 *		Gets a reference to const data values
-*	const cNode<T> *GetPrev () const
+*	const Node<T> *GetPrev () const
 *		Gets a pointer to const prev values
-*	const cNode<T> *GetNext () const
+*	const Node<T> *GetNext () const
 *		Gets a pointer to const next values
 *
 * Mutators:
 *	void SetData ( T &data )
 *		Sets Data to passed in variable data
-*	void SetNext ( cNode<T> *nNode )
+*	void SetNext ( Node<T> *nNode )
 *		Sets m_next to new pointer nNode
-*	void SetPrev ( cNode<T> *pNode )
+*	void SetPrev ( Node<T> *pNode )
 *		Sets m_prev to new pointer pNode	
 *	void Clear();	 
 *		Sets m_next and m_prev to null
 ************************************************************************/
 template <typename T>
-class cNode
+class Node
 {
 public:
-	cNode ();					// Default Constructor
-	cNode (T data);				// Single Argument Constructor
-	cNode (const cNode &c);		// Copy Constructor
-	~cNode();					// Destructor
+	Node ();					// Default Constructor
+	Node (T data);				// Single Argument Constructor
+	Node (const Node &c);		// Copy Constructor
+	~Node();					// Destructor
 
-	cNode &operator= ( const cNode &rhs );	// Overloaded Assignment Operator
+	Node &operator= ( const Node &rhs );	// Overloaded Assignment Operator
 
 	T		 &GetData();	// Gets reference to data value
-	cNode<T> *GetPrev();	// Gets pointer to prev value
-	cNode<T> *GetNext();	// Gets pointer to next value
+	Node<T> *GetPrev();	// Gets pointer to prev value
+	Node<T> *GetNext();	// Gets pointer to next value
 
 	const T		   &GetData() const;	// Gets reference to const data value
-	const cNode<T> *GetPrev() const;	// Gets pointer to const prev value
-	const cNode<T> *GetNext() const;	// Gets pointer to const next value
+	const Node<T> *GetPrev() const;	// Gets pointer to const prev value
+	const Node<T> *GetNext() const;	// Gets pointer to const next value
 
 	void SetData (T &data);			// Sets reference to data value
-	void SetNext (cNode *nNode);	// Sets pointer next node to pointer nNode
-	void SetPrev (cNode *pNode);	// Sets pointer prev node to pointer pNode
+	void SetNext (Node *nNode);	// Sets pointer next node to pointer nNode
+	void SetPrev (Node *pNode);	// Sets pointer prev node to pointer pNode
 
 private:
 	void Clear();	 // Clears m_next and m_prev nodes
 
 	T m_data;		// Private member variable m_data
 
-	cNode *m_next;	// Private member variable m_next
-	cNode *m_prev;  // Private member variable m_prev
+	Node *m_next;	// Private member variable m_next
+	Node *m_prev;  // Private member variable m_prev
 };
 
 #include "Node.inc"

@@ -16,10 +16,10 @@ class LinkedQueue
 {
 public:
 	LinkedQueue (int LQCap);
-	LinkedQueue (const LinkedQueue &c);
+	LinkedQueue (const LinkedQueue<LQ> &c);
 	~LinkedQueue();
 
-	LinkedQueue &operator= (const LinkedQueue &rhs);
+	LinkedQueue &operator= (const LinkedQueue<LQ> &rhs);
 
 	void Enqueue(LQ data);
 	LQ	 Dequeue();
@@ -33,8 +33,8 @@ public:
 private:
 	LinkedList<LQ> mLinkedQueue;
 
-	int LQCap;
-	int LQSize;
+	int mLQCap;
+	int mLQSize;
 };
 
 #include "Queue.inc"

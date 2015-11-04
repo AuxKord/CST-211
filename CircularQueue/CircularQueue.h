@@ -32,10 +32,10 @@ class CircularQueue
 {
 public:
 	CircularQueue (int CQCap);
-	CircularQueue (const CircularQueue &c);
+	CircularQueue (const CircularQueue<CQ> &c);
 	~CircularQueue();
 
-	CircularQueue &operator= (const CircularQueue &rhs);
+	CircularQueue &operator= (const CircularQueue<CQ> &rhs);
 
 	void Enqueue (CQ data);
 	CQ	 Dequeue();
@@ -49,8 +49,8 @@ public:
 private:
 	Array<CQ> mCircularQueue;
 
-	int CQCap;
-	int CQSize;
+	int mCQCap;
+	int mCQSize;
 };
 
 #include "Queue.inc"

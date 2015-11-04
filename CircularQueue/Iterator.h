@@ -12,67 +12,67 @@
 #include "Node.h"
 
 /************************************************************************
-* Class: cIterator
+* Class: Iterator
 *
 * Purpose:
 *
 * Constructors:
-*	cIterator ()
+*	Iterator ()
 *		Initializes m_node to null
-*	cIterator ( cNode<T> *Node )
+*	Iterator ( Node<T> *Node )
 *		Sets m_node to pointer Node
-*	cIterator ( const cNode<T> &c )
+*	Iterator ( const Node<T> &c )
 *		Copies m_node to c.m_node
-*	~cIterator ()
+*	~Iterator ()
 *		Sets m_node to null
 *
 * Operators:
-*	cIterator &operator= ( const cIterator &rhs )
+*	Iterator &operator= ( const Iterator &rhs )
 *		Assigns m_node values over to rhs
 *	T &operator* () const
 *		De-references const m_node if it's null
 *	T *operator-> () const
 *		TODO
-*	bool operator== ( const cIterator &rhs ) const
+*	bool operator== ( const Iterator &rhs ) const
 *		Compares iterator m_node to rhs m_node
-*	bool operator!= ( const cIterator &rhs ) const
+*	bool operator!= ( const Iterator &rhs ) const
 *		Compares iterator m_node to rhs m_node
-*	cIterator operator++ ()
+*	Iterator operator++ ()
 *		Uses prefix to increment iterator
-*	cIterator operator-- ()
+*	Iterator operator-- ()
 *		Uses prefix to decrement iterator
-*	cIterator operator++ ( int )
+*	Iterator operator++ ( int )
 *		Uses postfix to increment iterator
-*	cIterator operator-- ( int )
+*	Iterator operator-- ( int )
 *		Uses postfix to decrement iterator
 ************************************************************************/
 
 template <typename T>
-class cIterator
+class Iterator
 {
 public:
-	cIterator();						// Default Constructor
-	cIterator (cNode<T> *Node);			// Single Argument Constructor
-	cIterator (const cIterator<T> &c);	// Copy Constructor
-	~cIterator();						// Destructor
+	Iterator();						// Default Constructor
+	Iterator (Node<T> *Node);			// Single Argument Constructor
+	Iterator (const Iterator<T> &c);	// Copy Constructor
+	~Iterator();						// Destructor
 
-	const cNode<T> *GetNode() const;
+	const Node<T> *GetNode() const;
 
-	cIterator &operator= (const cIterator<T> &rhs);		// Assignment Operator Overload
+	Iterator &operator= (const Iterator<T> &rhs);		// Assignment Operator Overload
 	T		  &operator*() const;						// De-reference Operator
 	T		  *operator->() const;						// Pointer Access Operator
 
-	bool operator== (const cIterator<T> &rhs) const;		// Comparison Operator Overload
-	bool operator!= (const cIterator<T> &rhs) const;		// Comparison Operator Overload
+	bool operator== (const Iterator<T> &rhs) const;		// Comparison Operator Overload
+	bool operator!= (const Iterator<T> &rhs) const;		// Comparison Operator Overload
 
-	cIterator operator++();	// Prefix Increment Operator
-	cIterator operator--();	// Prefix Decrement Operator
+	Iterator operator++();	// Prefix Increment Operator
+	Iterator operator--();	// Prefix Decrement Operator
 
-	cIterator operator++ (int);	// Postfix Increment Operator
-	cIterator operator-- (int);	// Postfix Decrement Operator
+	Iterator operator++ (int);	// Postfix Increment Operator
+	Iterator operator-- (int);	// Postfix Decrement Operator
 
 private:
-	cNode<T> *m_node;	// Pointer to private member variable m_node
+	Node<T> *m_node;	// Pointer to private member variable m_node
 };
 
 #include "Iterator.inc"

@@ -61,7 +61,7 @@ LinkedList<T> &LinkedList<T>::operator= (const LinkedList<T> &rhs)
 	if (this != &rhs)
 	{
 		Purge();
-		const cNode<T> *rhsNode = &rhs.First();
+		const Node<T> *rhsNode = &rhs.First();
 		while (rhsNode != nullptr)
 		{
 			Append(&rhsNode->GetData());
@@ -86,7 +86,7 @@ bool LinkedList<T>::isEmpty()
 }
 
 /**************************************************************
-* const cNode<T> &LinkedList<T>::First () const
+* const Node<T> &LinkedList<T>::First () const
 *
 *		Purpose: Find the const variable m_head and returns it.
 *		  Entry: None.
@@ -94,13 +94,13 @@ bool LinkedList<T>::isEmpty()
 *				 m_head.
 ****************************************************************/
 template<typename T>
-const cNode<T> &LinkedList<T>::First() const
+const Node<T> &LinkedList<T>::First() const
 {
 	return *m_head;
 }
 
 /**************************************************************
-* const cNode<T> &LinkedList<T>::Last () const
+* const Node<T> &LinkedList<T>::Last () const
 *
 *		Purpose: Find the const variable m_tail and returns it.
 *		  Entry: None.
@@ -108,13 +108,13 @@ const cNode<T> &LinkedList<T>::First() const
 *				 m_tail.
 ****************************************************************/
 template<typename T>
-const cNode<T> &LinkedList<T>::Last() const
+const Node<T> &LinkedList<T>::Last() const
 {
 	return *m_tail;
 }
 
 /**************************************************************
-* const cIterator<T> LinkedList<T>::Begin() const
+* const Iterator<T> LinkedList<T>::Begin() const
 *
 *		Purpose: Return the const head or start of the iterator.
 *		  Entry: None.
@@ -122,13 +122,13 @@ const cNode<T> &LinkedList<T>::Last() const
 ****************************************************************/
 template<typename T>
 //const
-cIterator<T> LinkedList<T>::Begin() const
+Iterator<T> LinkedList<T>::Begin() const
 {
-	return cIterator<T>(m_head);
+	return Iterator<T>(m_head);
 }
 
 /**************************************************************
-* const cIterator<T> LinkedList<T>::End() const
+* const Iterator<T> LinkedList<T>::End() const
 *
 *		Purpose: Return the const tail or end of the iterator.
 *		  Entry: None.
@@ -136,9 +136,9 @@ cIterator<T> LinkedList<T>::Begin() const
 ****************************************************************/
 template<typename T>
 //const 
-cIterator<T> LinkedList<T>::End() const
+Iterator<T> LinkedList<T>::End() const
 {
-	return cIterator<T>(m_tail);
+	return Iterator<T>(m_tail);
 }
 
 /**************************************************************
@@ -153,11 +153,11 @@ void LinkedList<T>::Purge()
 {
 	if (!isEmpty())
 	{
-		cNode<T> *CURR = m_head;
+		Node<T> *CURR = m_head;
 
 		while (CURR->GetNext())
 		{
-			cNode<T> *nDelete = CURR;
+			Node<T> *nDelete = CURR;
 			CURR = CURR->GetNext();
 			delete nDelete;
 		}
@@ -179,7 +179,7 @@ void LinkedList<T>::Purge()
 template<typename T>
 void LinkedList<T>::Prepend(const T *prp)
 {
-	cNode<T> *prpd = new cNode<T>(*prp);
+	Node<T> *prpd = new Node<T>(*prp);
 	if (!isEmpty())
 	{
 		prpd->SetNext(m_head);
@@ -203,7 +203,7 @@ void LinkedList<T>::Prepend(const T *prp)
 template<typename T>
 void LinkedList<T>::Append(const T *apn)
 {
-	cNode<T> *apnd = new cNode<T>(*apn);
+	Node<T> *apnd = new Node<T>(*apn);
 	if (!isEmpty())
 	{
 		apnd->SetPrev(m_tail);
@@ -215,7 +215,7 @@ void LinkedList<T>::Append(const T *apn)
 }
 
 /**************************************************************
-* cNode<T> &LinkedList<T>::Extract ( T &eValue )
+* Node<T> &LinkedList<T>::Extract ( T &eValue )
 *
 *		Purpose: Extract the specified node and returns a copy
 *				 of that node.
@@ -224,11 +224,11 @@ void LinkedList<T>::Append(const T *apn)
 *          Exit: Returns CURR, the specified node
 ****************************************************************/
 template<typename T>
-cNode<T>& LinkedList<T>::Extract(T eValue)
+Node<T>& LinkedList<T>::Extract(T eValue)
 {
-	cNode<T> *CURR = m_head;
+	Node<T> *CURR = m_head;
 
-	for (cIterator<T> i(Begin()); CURR != nullptr; ++i)
+	for (Iterator<T> i(Begin()); CURR != nullptr; ++i)
 	{
 		if (CURR->GetData() == eValue)     
 		{
@@ -279,12 +279,12 @@ cNode<T>& LinkedList<T>::Extract(T eValue)
 template<typename T>
 void LinkedList<T>::InsertAfter(T insA, T *insANew)
 {
-	cNode<T> *CURR = m_head;
-	for (cIterator<T> i = this->Begin(); i != this->End(); ++i)
+	Node<T> *CURR = m_head;
+	for (Iterator<T> i = this->Begin(); i != this->End(); ++i)
 	{
 		if (CURR->GetData() == insA)
 		{
-			cNode<T>* PlugIn = new cNode<T>(*insANew);
+			Node<T>* PlugIn = new Node<T>(*insANew);
 			if (m_tail == CURR)       
 			{
 				PlugIn->SetPrev(CURR);
@@ -318,12 +318,12 @@ void LinkedList<T>::InsertAfter(T insA, T *insANew)
 template<typename T>
 void LinkedList<T>::InsertBefore(T insB, T *insBNew)
 {
-	cNode<T> *CURR = m_head;
-	for (cIterator<T> i = this->Begin(); i != this->End(); ++i)
+	Node<T> *CURR = m_head;
+	for (Iterator<T> i = this->Begin(); i != this->End(); ++i)
 	{
 		if (CURR->GetData() == insB)
 		{
-			cNode<T> *plugIn = new cNode<T>(*insBNew);
+			Node<T> *plugIn = new Node<T>(*insBNew);
 			if (m_head == CURR)       
 			{
 				plugIn->SetNext(CURR);
@@ -344,7 +344,7 @@ void LinkedList<T>::InsertBefore(T insB, T *insBNew)
 }
 
 /**************************************************************
-* void cNode<T>::Clear()
+* void Node<T>::Clear()
 *
 *		Purpose: Sets both private member variables head and
 *				 tail to null.
