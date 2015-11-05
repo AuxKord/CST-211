@@ -9,31 +9,54 @@
 
 int main()
 {
-	while (true)
+	bool quit = false;
+	do
 	{
 		int selection = MainMenu();
 		char ch = '\0';
 		switch (selection)
 		{
-		case 1:
-		{
-			TestStack();
-			std::cout << "Press any key to return to Main Manu: ";
-			ch = _getch();
-		}
-		break;
-		case 2:
-		{
-			OUStack();
-			std::cout << "Press any key to return to Main Manu: ";
-			ch = _getch();
-		}
-		break;
-		case 3:
-			std::cout << "Thanks for stopping by!";
+			case 1:
+			{
+				TestLinkedQueue();
+				std::cout << "Press any key to return to Main Manu: ";
+				ch = _getch();
+			}
+			quit = false;
 			break;
-		default:
-			return 0;
+
+			case 2:
+			{
+				LinkedQueueExceptions();
+				std::cout << "Press any key to return to Main Manu: ";
+				ch = _getch();
+			}
+			quit = false;
+			break;
+			case 3:
+			{
+				TestCircularQueue();
+				std::cout << "Press any key to return to Main Manu: ";
+				ch = _getch();
+			}
+			quit = false;
+			break;
+
+			case 4:
+			{
+				CircularQueueExceptions();
+				std::cout << "Press any key to return to Main Manu: ";
+				ch = _getch();
+			}
+			quit = false;
+			break;
+
+			case 5:
+				std::cout << "\n\t\t\tThanks for stopping by!\n\n";
+				quit = true;
+				break;
+			default:
+				return 0;
 		};
-	}
+	} while (!quit);
 }

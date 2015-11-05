@@ -4,22 +4,6 @@
 * Updated:				10/16/15
 * H.W. Number:			Assignment 5
 * Filename:				CircularQueue.h
-
-Canonical functions - The constructor will take one parameter that will be the size of the queue.
-
-
-
-Enqueue - Puts the data item at the end (tail) of the queue.
-
-Dequeue - Removes and returns the data item at the front of the queue.
-
-Front - Returns a reference to the data at the front of the queue. This will allow the consumer to modify the element at the front of the queue.
-
-Size – Returns the number of items currently in the queue.
-
-isEmpty - Returns true if the stack is empty.
-
-isFull - Returns true if the queue is full.
 ************************************************************************/
 #ifndef CircularQueue_H
 #define CircularQueue_H
@@ -27,6 +11,39 @@ isFull - Returns true if the queue is full.
 #include "Array.h"
 #include "Exception.h"
 
+/************************************************************************
+* Class: CircularQueue
+*
+* Purpose:
+*
+* Constructors:
+*	CircularQueue (int CQCap)
+*
+*	CircularQueue (const CircularQueue<CQ> &c)
+*
+*	~CircularQueue()
+*
+*
+* Operators:
+*	CircularQueue &operator= (const CircularQueue<CQ> &rhs)
+*
+*
+* Methods:
+*	CQ &Front()
+*
+*	int Size() 
+*
+*	bool isEmpty() 
+*
+*	bool isFull()
+*
+*
+* Mutators:
+*	void Enqueue (CQ data)
+*
+*	CQ	 Dequeue()
+*
+************************************************************************/
 template <typename CQ>
 class CircularQueue
 {
@@ -44,7 +61,7 @@ public:
 	int Size() { return mCQSize; }
 
 	bool isEmpty() { return mCQSize == 0; }
-	bool isFull() { eturn mCQSize == mCQCap; }
+	bool isFull() { return mCQSize == mCQCap; }
 
 private:
 	Array<CQ> mCircularQueue;

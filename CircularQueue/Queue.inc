@@ -19,9 +19,8 @@
 *				 to 0.
 ****************************************************************/
 template <typename CQ>
-CircularQueue<CQ>::CircularQueue(int CQCap) : mCircularQueue (CQCap), mCQCap (CQCap), mCQSize (0)
+CircularQueue<CQ>::CircularQueue(int CQCap) : mCircularQueue(CQCap), mCQCap(CQCap), mCQSize(0)
 {
-
 }
 
 /**************************************************************
@@ -30,7 +29,7 @@ CircularQueue<CQ>::CircularQueue(int CQCap) : mCircularQueue (CQCap), mCQCap (CQ
 *				 to 0.
 ****************************************************************/
 template <typename CQ>
-CircularQueue<CQ>::CircularQueue(const CircularQueue & c) : mCircularQueue (c.mCircularQueue), mCQCap (c.mCQCap),
+CircularQueue<CQ>::CircularQueue(const CircularQueue<CQ> &c) : mCircularQueue (c.mCircularQueue), mCQCap (c.mCQCap),
 															mCQSize (c.mCQSize)
 {
 }
@@ -58,8 +57,8 @@ void CircularQueue<CQ>::Enqueue(CQ data)
 	if (isFull())
 		throw cException("Enqueue - Error: Circular Queue is Full!");
 	else
-			mCircularQueue[data];
-	++mCQSize;
+			mCircularQueue[mCQSize++] = data;
+	
 }
 
 /**************************************************************
@@ -87,10 +86,7 @@ CQ CircularQueue<CQ>::Dequeue()
 template <typename CQ>
 CQ &CircularQueue<CQ>::Front()
 {
-	if (!isEmpty())
-		return mCircularQueue[0];
-	else
-		throw cException("Front - Error: Circular Queue is Empty!");
+	return mCircularQueue[0];
 }
 
 
@@ -103,7 +99,7 @@ CQ &CircularQueue<CQ>::Front()
 *		Purpose: Default Constructor.
 ****************************************************************/
 template <typename LQ>
-LinkedQueue<LQ>::LinkedQueue(int LQCap) : mLinkedQueue (LQCap), mLQCap (LQCap), mLQSize (0)
+LinkedQueue<LQ>::LinkedQueue(int LQCap) : mLQCap (LQCap), mLQSize (0)
 {
 }
 

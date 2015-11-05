@@ -72,10 +72,8 @@ Array<T>::~Array()
 *		Purpose:  Default Constructor.
 ****************************************************************/
 template <typename T>
-const Array<T>& Array<T>::operator=(const Array<T> &rhs)
+const Array<T> &Array<T>::operator=(const Array<T> &rhs)
 {
-	if (this != rhs)
-	{ 
 		m_length = rhs.m_length;
 		m_start_index = rhs.m_start_index;
 	
@@ -86,7 +84,6 @@ const Array<T>& Array<T>::operator=(const Array<T> &rhs)
 
 		for (int i = 0; i < m_length; ++i)
 			m_array[i] = rhs.m_array[i];
-	}
 	return *this;
 }
 
