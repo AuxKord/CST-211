@@ -11,6 +11,40 @@
 #include "LinkedList.h"
 #include "Exception.h"
 
+/************************************************************************
+* Class: LinkedQueue
+*
+* Purpose:
+*
+* Constructors:
+*	LinkedQueue (int LQCap)
+*
+*	LinkedQueue (const LinkedQueue<LQ> &c)
+*
+*	~LinkedQueue()
+*
+*
+* Operators:
+*	LinkedQueue &operator= (const LinkedQueue<LQ> &rhs)
+*
+*
+* Methods:
+*	LQ &Front()
+*
+*	int Size()
+*
+*	bool isEmpty() 
+*
+*	bool isFull() 
+*
+*
+* Mutators:
+*	void Enqueue(LQ data)
+*
+*	LQ	 Dequeue()
+8
+************************************************************************/
+
 template <typename LQ>
 class LinkedQueue
 {
