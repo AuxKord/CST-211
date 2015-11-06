@@ -1,0 +1,361 @@
+/**********************************************************************
+* Author:				Abdul Yahya
+* Created:				10/16/15
+* Updated:				10/25/15
+* H.W. Number:			Assignment 5
+* Filename:				LinkedList.inc
+************************************************************************/
+
+#ifndef LinkedList_i
+#define LinkedList_i
+
+#include "Exception.h"
+#include "LinkedList.h"
+
+/**************************************************************
+* LinkedList<T>::LinkedList() 
+*
+*		Purpose: Default Constructor. Calls Clear() to set
+*				 m_head/tail to null.
+****************************************************************/
+template <typename T>
+LinkedList<T>::LinkedList()
+{
+	Clear();
+}
+
+/**************************************************************
+* LinkedList<T>::LinkedList(const LinkedList &rhs)
+*
+*		Purpose: Copy Constructor. Initializes m_data with a
+*				 copy of itself, c.m_data and calls Clear().
+*
+*		MAKE THIS A DEEP COPY
+****************************************************************/
+template<typename T>
+LinkedList<T>::LinkedList (const LinkedList &c) : m_head ( c.m_head ), m_tail ( c.m_tail )
+{
+	Clear();
+	*this = c;
+}
+
+// Destructor
+template<typename T>
+LinkedList<T>::~LinkedList()
+{
+	Purge();
+	m_head = nullptr; m_tail = nullptr;
+}
+
+/**************************************************************
+* LinkedList<T> &LinkedList<T>::operator= (const LinkedList<T> &rhs)
+*
+*		Purpose: Assignment Operator. Checks for self
+*				 assignment then purges nodes. 
+*
+*		Double Check
+****************************************************************/
+template<typename T>
+LinkedList<T> &LinkedList<T>::operator= (const LinkedList<T> &rhs)
+{
+	if (this != &rhs)
+	{
+		Purge();
+		const Node<T> *rhsNode = &rhs.First();
+		while (rhsNode != nullptr)
+		{
+			Append(&rhsNode->GetData());
+			rhsNode = rhsNode->GetNext();
+		}
+	}
+	return *this;
+}
+
+/**************************************************************
+* bool LinkedList<T>::isEmpty ()
+*
+*		Purpose: Checks to see if LinkedList is empty and
+*				 returns true if it is.
+*		  Entry: None
+*          Exit: If LinkedList is empty it will return true.
+****************************************************************/
+template<typename T>
+bool LinkedList<T>::isEmpty()
+{
+	return (m_head == nullptr);
+}
+
+/**************************************************************
+* const Node<T> &LinkedList<T>::First () const
+*
+*		Purpose: Find the const variable m_head and returns it.
+*		  Entry: None.
+*          Exit: If m_head is not null then it will return
+*				 m_head.
+****************************************************************/
+template<typename T>
+const Node<T> &LinkedList<T>::First() const
+{
+	return *m_head;
+}
+
+/**************************************************************
+* const Node<T> &LinkedList<T>::Last () const
+*
+*		Purpose: Find the const variable m_tail and returns it.
+*		  Entry: None.
+*          Exit: If m_tail is not null then it will return
+*				 m_tail.
+****************************************************************/
+template<typename T>
+const Node<T> &LinkedList<T>::Last() const
+{
+	return *m_tail;
+}
+
+/**************************************************************
+* const Iterator<T> LinkedList<T>::Begin() const
+*
+*		Purpose: Return the const head or start of the iterator.
+*		  Entry: None.
+*          Exit: Returns iterators m_head value.
+****************************************************************/
+template<typename T>
+//const
+Iterator<T> LinkedList<T>::Begin() const
+{
+	return Iterator<T>(m_head);
+}
+
+/**************************************************************
+* const Iterator<T> LinkedList<T>::End() const
+*
+*		Purpose: Return the const tail or end of the iterator.
+*		  Entry: None.
+*          Exit: Returns iterators m_tail value.
+****************************************************************/
+template<typename T>
+//const 
+Iterator<T> LinkedList<T>::End() const
+{
+	return Iterator<T>(m_tail);
+}
+
+/**************************************************************
+* void LinkedList<T>::Purge ()
+*
+*		Purpose: Clears the LinkedList of all nodes.
+*		  Entry: None.
+*          Exit: None; Void Function.
+****************************************************************/
+template<typename T>
+void LinkedList<T>::Purge()
+{
+	if (!isEmpty())
+	{
+		Node<T> *CURR = m_head;
+
+		while (CURR->GetNext())
+		{
+			Node<T> *nDelete = CURR;
+			CURR = CURR->GetNext();
+			delete nDelete;
+		}
+		delete CURR;
+		Clear();
+	}
+}
+
+/**************************************************************
+* void LinkedList<T>::Prepend ( T *prp )
+*
+*		Purpose: Add a node to the beginning of the LinkedList.
+*		  Entry: Takes in pointer variable prp of type T.
+*          Exit: None; Void function.
+*
+*
+*		Double Check
+****************************************************************/
+template<typename T>
+void LinkedList<T>::Prepend(const T *prp)
+{
+	Node<T> *prpd = new Node<T>(*prp);
+	if (!isEmpty())
+	{
+		prpd->SetNext(m_head);
+		m_head->SetPrev(prpd);
+		m_head = prpd;
+	}
+	else
+		m_head = m_tail = prpd;
+}
+
+/**************************************************************
+* void LinkedList<T>::Append ( T *apn )
+*
+*		Purpose: Add a node to end of the LinkedList.
+*		  Entry: Takes in pointer variable apn of type T.
+*          Exit: None; Void function.
+*
+*
+*			Double Check
+****************************************************************/
+template<typename T>
+void LinkedList<T>::Append(const T *apn)
+{
+	Node<T> *apnd = new Node<T>(*apn);
+	if (!isEmpty())
+	{
+		apnd->SetPrev(m_tail);
+		m_tail->SetNext(apnd);
+		m_tail = apnd;
+	}
+	else
+		m_head = m_tail = apnd;
+}
+
+/**************************************************************
+* Node<T> &LinkedList<T>::Extract ( T &eValue )
+*
+*		Purpose: Extract the specified node and returns a copy
+*				 of that node.
+*		  Entry: Takes in eValue which will contain the
+*				 specified node.
+*          Exit: Returns CURR, the specified node
+****************************************************************/
+template<typename T>
+Node<T>& LinkedList<T>::Extract(T eValue)
+{
+	Node<T> *CURR = m_head;
+
+	for (Iterator<T> i(Begin()); CURR != nullptr; ++i)
+	{
+		if (CURR->GetData() == eValue)     
+		{
+			if (CURR)      
+			{
+				if (CURR == m_tail )      
+				{
+					Clear();
+					return *(CURR);
+				}
+				else                               
+				{
+					m_head = CURR->GetNext();
+					CURR->GetNext()->SetPrev(nullptr);
+					return *(CURR);
+				}
+			}
+			else if (CURR == m_tail)  
+			{
+				m_tail = CURR->GetPrev();
+				CURR->GetPrev()->SetNext(nullptr);
+				return *(CURR);
+			}
+			else                               
+			{
+				CURR->GetPrev()->SetNext(CURR->GetNext()); 
+				CURR->GetNext()->SetPrev(CURR->GetPrev()); 
+				CURR->SetNext(nullptr);  
+				CURR->SetPrev(nullptr); 
+				return *(CURR);        
+			}
+		}
+	}
+	return *(CURR);
+}
+
+/*********************************************************************************************************
+* template<typename T>
+* void LinkedList<T>::InsertAfter(T value, T* data)
+*
+*  Purpose:    Insert data after a node with the specified value
+*
+*  Entry:      value = value of node to place new data after; data = the data you want to place behind
+*              the node
+*
+*  Exit:       New node is created after the node with the specified m_data value
+*********************************************************************************************************/
+template<typename T>
+void LinkedList<T>::InsertAfter(T insA, T *insANew)
+{
+	Node<T> *CURR = m_head;
+	for (Iterator<T> i = this->Begin(); i != this->End(); ++i)
+	{
+		if (CURR->GetData() == insA)
+		{
+			Node<T>* PlugIn = new Node<T>(*insANew);
+			if (m_tail == CURR)       
+			{
+				PlugIn->SetPrev(CURR);
+				PlugIn->GetPrev()->SetNext(PlugIn);
+				m_tail = PlugIn;
+			}
+			else                           
+			{
+				PlugIn->SetNext(CURR->GetNext());
+				PlugIn->SetPrev(CURR);
+				PlugIn->GetNext()->SetPrev(PlugIn);
+				PlugIn->GetPrev()->SetNext(PlugIn);
+			}
+		}
+		else
+			Append(insANew);
+	}
+}
+
+/*********************************************************************************************************
+* template<typename T>
+* void LinkedList<T>::InsertBefore(T value, T* data)
+*
+*  Purpose:    Insert data before a node with the specified value
+*
+*  Entry:      value = value of node to place new data before; data = the data you want to place in
+*              front of the node
+*
+*  Exit:       New node is created before the node with the specified m_data value
+*********************************************************************************************************/
+template<typename T>
+void LinkedList<T>::InsertBefore(T insB, T *insBNew)
+{
+	Node<T> *CURR = m_head;
+	for (Iterator<T> i = this->Begin(); i != this->End(); ++i)
+	{
+		if (CURR->GetData() == insB)
+		{
+			Node<T> *plugIn = new Node<T>(*insBNew);
+			if (m_head == CURR)       
+			{
+				plugIn->SetNext(CURR);
+				plugIn->GetNext()->SetPrev(plugIn);
+				m_head = plugIn;
+			}
+			else                           
+			{
+				plugIn->SetNext(CURR);
+				plugIn->SetPrev(CURR->GetPrev());
+				plugIn->GetNext()->SetPrev(plugIn);
+				plugIn->GetPrev()->SetNext(plugIn);
+			}
+		}
+		else
+			Prepend(insBNew);
+	}
+}
+
+/**************************************************************
+* void Node<T>::Clear()
+*
+*		Purpose: Sets both private member variables head and
+*				 tail to null.
+*		  Entry: None.
+*          Exit: None; Void function.
+****************************************************************/
+template<typename T>
+void LinkedList<T>::Clear()
+{
+	m_head = nullptr;
+	m_tail = nullptr;
+}
+
+#endif
